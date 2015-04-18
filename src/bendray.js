@@ -22,6 +22,7 @@ class BendRay extends Ray {
 			} else {
 				/*this.lineTo(piece.origin[0] + piece.direction[0] * 1000,
 					piece.origin[1] + piece.direction[1] * 1000);*/
+				this.lineStyle(2, 0xFFFFFF, 0);
 				this.beginFill(this.color);
 				
 				this.moveTo(piece.origin[0], piece.origin[1]);
