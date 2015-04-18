@@ -90,11 +90,10 @@ class Prism extends PIXI.Graphics {
 		var angle1 = this.angleForLine(line);
 		var angle2 = Math.atan2(segment[0][1] - segment[1][1],
 				segment[0][0] - segment[1][0]) - 0.5 * Math.PI;// normal of segment
-		//console.log(angle1 * (180 / Math.PI));
-		//console.log(angle2 * (180 / Math.PI));
 		var inAngle = (angle1 - angle2) % (2 * Math.PI);
-		//console.log(index);
-		//console.log(inAngle * (180 / Math.PI));
+		if (inAngle > Math.PI) {
+			inAngle -= 2 * Math.PI;
+		}
 		return Math.PI + (inAngle / index) + angle2;
 	}
 
