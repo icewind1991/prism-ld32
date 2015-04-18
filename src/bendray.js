@@ -43,9 +43,7 @@ class BendRay extends Ray {
 				this.lastCone = [piece.origin[0], piece.origin[1], 
 								piece.origin[0] - minDir[0] * 1000, piece.origin[1] - minDir[1] * 1000,
 								piece.origin[0] - maxDir[0] * 1000, piece.origin[1] - maxDir[1] * 1000];
-				/*this.moveTo(piece.origin[0], piece.origin[1]);
-				this.lineTo(piece.origin[0] - minDir[0] * 1000, piece.origin[1] - minDir[1] * 1000);
-				this.lineTo(piece.origin[0] - maxDir[0] * 1000, piece.origin[1] - maxDir[1] * 1000);*/
+
 				this.moveTo(this.lastCone[0], this.lastCone[1]);
 				this.lineTo(this.lastCone[2], this.lastCone[3]);
 				this.lineTo(this.lastCone[4], this.lastCone[5]);

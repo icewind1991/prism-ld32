@@ -24,21 +24,22 @@ prism2.position.x = 550;
 prism2.position.y = 500;
 
 stage.addChild(prism1);
-stage.addChild(prism2);
+//stage.addChild(prism2);
+var prims = [prism1];
 var rays = [];
-rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], [prism1, prism2], 0xFF0000, 1));//720nm
-rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], [prism1, prism2], 0xFF9B00, 0.975));//610nm
-rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], [prism1, prism2], 0xFFFF00, 0.95));//580nm
-rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], [prism1, prism2], 0x00FF00, 0.925));//510nm
-rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], [prism1, prism2], 0x0000FF, 0.9));//440nm
+rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], prims, 0xFF0000, 1));//720nm
+rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], prims, 0xFF9B00, 0.975));//610nm
+rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], prims, 0xFFFF00, 0.95));//580nm
+rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], prims, 0x00FF00, 0.925));//510nm
+rays.push(new BendRay([0, renderer.view.height / 4], [1, 1], prims, 0x0000FF, 0.9));//440nm
 rays.forEach((ray)=> {
 	stage.addChild(ray);
 });
 
 var enemies = [];
 enemies.push(new Enemy(0xFF0000));
-enemies.forEach((enemy)=>{
-		stage.addChild(enemy);
+enemies.forEach((enemy)=> {
+	stage.addChild(enemy);
 });
 
 requestAnimationFrame(animate);
@@ -77,17 +78,17 @@ kd.E.down(() => {
 
 kd.R.down(() => {
 	prism1.refractionIndex += 0.01;
-	if(prism1.refractionIndex > 2.5) {
+	if (prism1.refractionIndex > 2.5) {
 		prism1.refractionIndex = 2.5;
-	}	
+	}
 	keypressed = true;
 });
 
 kd.T.down(() => {
 	prism1.refractionIndex -= 0.01;
-	if(prism1.refractionIndex < 1) {
+	if (prism1.refractionIndex < 1) {
 		prism1.refractionIndex = 1;
-	}	
+	}
 	keypressed = true;
 });
 
@@ -97,33 +98,33 @@ function animate() {
 	kd.tick();
 	//prism.rotation += 0.01;
 	var newMouse = stage.getMousePosition();
-	if(keypressed || newMouse.x != oldMouse.x || newMouse.y != oldMouse.y) {
+	if (keypressed || newMouse.x != oldMouse.x || newMouse.y != oldMouse.y) {
 		rays.forEach((ray)=> {
 			ray.destination = [newMouse.x, newMouse.y];
 		});
 		//console.log(stage.getMousePosition());
 		rays.forEach((ray)=> {
 			ray.update();
-		});				
+		});
 		oldMouse.x = newMouse.x;
 		oldMouse.y = newMouse.y;
 		keypressed = false;
-		
+
 		enemies.forEach((enemy)=> {
 			rays.forEach((ray)=> {
-				if(ray.color == enemy.colour) {
+				if (ray.color == enemy.colour) {
 					console.log("cone: " + ray.color + " enemy: " + enemy.colour);
 					var cone = ray.currentCone;
-					if(intersects(cone, enemy.bounds)) {
+					if (intersects(cone, enemy.bounds)) {
 						console.log("raak");
 					}
-				}								
+				}
 			});
 		});
 	}
-		
+
 	renderer.render(stage);
-	
+
 	requestAnimationFrame(animate);
 }
 
@@ -133,10 +134,14 @@ function intersects(cone, enemyBounds) {
 		new SAT.Vector(cone[4], cone[5]),
 		new SAT.Vector(cone[2], cone[3])
 	]);
-	
-	var box = new SAT.Box(new SAT.Vector(enemyBounds[2], enemyBounds[3], 20, 20));
-	var boxPol = box.toPolygon();
-	
+
+	var boxPol = new SAT.Polygon(new SAT.Vector(), [
+		new SAT.Vector(enemyBounds[0], enemyBounds[1]),
+		new SAT.Vector(enemyBounds[0], enemyBounds[3]),
+		new SAT.Vector(enemyBounds[2], enemyBounds[3]),
+		new SAT.Vector(enemyBounds[2], enemyBounds[1])
+	]);
+
 	return SAT.testPolygonPolygon(conePol, boxPol);
 }
 
