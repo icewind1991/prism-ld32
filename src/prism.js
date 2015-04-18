@@ -93,6 +93,7 @@ class Prism extends PIXI.Graphics {
 		//console.log(angle1 * (180 / Math.PI));
 		//console.log(angle2 * (180 / Math.PI));
 		var inAngle = (angle1 - angle2) % (2 * Math.PI);
+		//console.log(index);
 		//console.log(inAngle * (180 / Math.PI));
 		return Math.PI + (inAngle / index) + angle2;
 	}
@@ -115,7 +116,7 @@ class Prism extends PIXI.Graphics {
 
 		var [newInternalLine, segment2] = this.intersectWithSegments(internalRay);
 		if (!segment2 || !newInternalLine) {
-			return [ray, internalRay];
+			return [line, internalRay];
 		}
 		var outRay;
 		var parts = [line];
@@ -146,7 +147,7 @@ class Prism extends PIXI.Graphics {
 		//
 		direction = [Math.cos(outAngle), Math.sin(outAngle)];
 		//
-		outRay = new Ray(internalLine.end, direction);
+		outRay = new Ray(internalLine.end, direction, ray.color, ray.refractionScale);
 		parts.push(outRay);
 
 		return parts;
