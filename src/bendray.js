@@ -12,14 +12,26 @@ class BendRay extends Ray {
 		var pieces = this.prism.inputRay(this);
 		this.clear();
 		this.lineStyle(2, this.color, 1);
-		//this.beginFill(0xFFFFFF);
+		
 		this.moveTo(this.origin[0], this.origin[1]);
 		pieces.forEach((piece) => {
 			if (piece.end) {
 				this.lineTo(piece.end[0], piece.end[1]);
 			} else {
-				this.lineTo(piece.origin[0] + piece.direction[0] * 1000,
-					piece.origin[1] + piece.direction[1] * 1000);
+				/*this.lineTo(piece.origin[0] + piece.direction[0] * 1000,
+					piece.origin[1] + piece.direction[1] * 1000);*/
+				this.beginFill(this.color);
+				
+				this.moveTo(piece.origin[0], piece.origin[1]);
+				var angle = piece.angle;
+				var minAngle = angle-Math.PI/128;
+				var maxAngle = angle+Math.PI/128;
+				var minDir = [Math.cos(minAngle), Math.sin(minAngle)];
+				var maxDir = [Math.cos(maxAngle), Math.sin(maxAngle)];
+				this.lineTo(piece.origin[0] - minDir[0] * 1000, piece.origin[1] - minDir[1] * 1000);
+				this.lineTo(piece.origin[0] - maxDir[0] * 1000, piece.origin[1] - maxDir[1] * 1000);
+				
+				this.endFill();
 			}
 		});
 	}

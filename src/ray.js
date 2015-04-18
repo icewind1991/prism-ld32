@@ -31,6 +31,10 @@ class Ray extends PIXI.Graphics {
 		this.direction[0] = newDestination[0] - this.origin[0];
 		this.direction[1] = newDestination[1] - this.origin[1];
 	}
+	
+	get angle() {
+		return Math.atan2(-this.direction[1], -this.direction[0]);
+	}
 }
 
 module.exports = Ray;

@@ -101,13 +101,7 @@ class Prism extends PIXI.Graphics {
 	}
 
 	angleForLine(line) {
-		if (line.end) {
-			return Math.atan2(line.origin[1] - line.end[1],
-				line.origin[0] - line.end[0]);
-		} else if (line.direction) {
-			return Math.atan2(-line.direction[1],
-				-line.direction[0]);
-		}
+		return line.angle;
 	}
 
 	inputRay(ray) {

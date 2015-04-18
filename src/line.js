@@ -24,6 +24,10 @@ class Line extends PIXI.Graphics {
 	get length() {
 		return Math.sqrt(Math.pow(this.end[0] - this.origin[0], 2) + Math.pow(this.end[1] - this.origin[1], 2));
 	}
+	
+	get angle() {
+		return Math.atan2(this.origin[1] - this.end[1], this.origin[0] - this.end[0]);
+	}
 }
 
 module.exports = Line;
