@@ -112,11 +112,11 @@ function animate() {
 
 		enemies.forEach((enemy)=> {
 			rays.forEach((ray)=> {
-				if (ray.color == enemy.colour) {
-					console.log("cone: " + ray.color + " enemy: " + enemy.colour);
+				if (ray.color == enemy.originalColour) {								
 					var cone = ray.currentCone;
 					if (intersects(cone, enemy.bounds)) {
-						console.log("raak");
+						enemy.hit(ray.color);
+						enemy.init();//update
 					}
 				}
 			});
