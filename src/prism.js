@@ -7,7 +7,7 @@ class Prism extends PIXI.Graphics {
 	constructor() {
 		super();
 		this.init();
-		this.refractionIndex = 3;
+		this.refractionIndex = 1.5;
 	}
 
 	init() {
@@ -142,7 +142,7 @@ class Prism extends PIXI.Graphics {
 
 			direction = [Math.cos(outAngle), Math.sin(outAngle)];
 			internalRay = new Ray(internalLine.end, direction);
-			if (i < 10) {
+			if (i < 100) {
 				[newInternalLine, segment2] = this.intersectWithSegments(internalRay);
 			} else {
 				newInternalLine = null;
