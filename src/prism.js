@@ -2,8 +2,9 @@ var PIXI = require('pixi.js');
 var segseg = require('segseg');
 var Ray = require('./ray');
 var Line = require('./line');
+var Manipulator = require('./manipulator');
 
-class Prism extends PIXI.Graphics {
+class Prism extends Manipulator {
 	constructor() {
 		super();
 		this.init();
@@ -43,51 +44,8 @@ class Prism extends PIXI.Graphics {
 		];
 	}
 
-	getSegments() {
-		var points = this.getPoints();
-		return points.map((point, i) => {
-			var nextI = (i + 1) % points.length;
-			return [point, points[nextI]];
-		});
-	}
-
-	intersectWithSegments(ray) {
-		var segments = this.getSegments();
-		var lineSeg = [[ray.origin[0], ray.origin[1]], [ray.origin[0] + (ray.direction[0] * 1000), ray.origin[1] + (ray.direction[1] * 1000)]];
-		var intersections = segments.map((segment) => {
-			var point = segseg(
-				segment[0][0], segment[0][1], segment[1][0], segment[1][1],
-				lineSeg[0][0], lineSeg[0][1], lineSeg[1][0], lineSeg[1][1]
-			);
-			if (point && point.length) {
-				return {point, segment}
-			} else {
-				return false;
-			}
-		}).filter((intersection) => {
-			return (intersection);
-		});
-		if (intersections.length === 0) {
-			return [null, null];
-		}
-		var inputLines = intersections.map((intersection) => {
-			var line = new Line(ray.origin, intersection.point);
-			line.segment = intersection.segment;
-			return line;
-		}).filter((line) => {
-			return line.length > 0.01;
-		});
-		inputLines.sort((a, b) => {
-			return a.length - b.length;
-		});
-		if (!inputLines[0]) {
-			return [ray, null];
-		}
-		return [inputLines[0], inputLines[0].segment];
-	}
-
 	getOutAngle(line, segment, index) {
-		var angle1 = this.angleForLine(line);
+		var angle1 = line.angle;
 		var angle2 = Math.atan2(segment[0][1] - segment[1][1],
 				segment[0][0] - segment[1][0]) - 0.5 * Math.PI;// normal of segment
 		var inAngle = (angle1 - angle2) % (2 * Math.PI);
@@ -95,10 +53,6 @@ class Prism extends PIXI.Graphics {
 			inAngle -= 2 * Math.PI;
 		}
 		return Math.PI + (inAngle / index) + angle2;
-	}
-
-	angleForLine(line) {
-		return line.angle;
 	}
 
 	inputRay(ray) {

@@ -2,6 +2,7 @@ var PIXI = require('pixi.js');
 var Prism = require('./prism');
 var Line = require('./line');
 var Ray = require('./ray');
+var Barier = require('./barier');
 var Enemy = require('./enemy');
 var BendRay = require('./bendray');
 var kd = require('keydrown');
@@ -23,8 +24,14 @@ var prism2 = new Prism();
 prism2.position.x = 550;
 prism2.position.y = 500;
 
+var barier = new Barier(20, 200, 0xFF0000);
+
+barier.position.x = 250;
+barier.position.y = 200;
+
 stage.addChild(prism1);
 stage.addChild(prism2);
+stage.addChild(barier);
 var prisms = [prism1, prism2];
 var rays = [];
 var origin = [0, 0];
