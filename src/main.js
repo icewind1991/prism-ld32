@@ -27,11 +27,13 @@ stage.addChild(prism1);
 stage.addChild(prism2);
 var prisms = [prism1, prism2];
 var rays = [];
-rays.push(new BendRay([0, 0], [1, 1], prisms, 0xFF0000, 0.9));//720nm
-rays.push(new BendRay([0, 0], [1, 1], prisms, 0xFF9B00, 0.925));//610nm
-rays.push(new BendRay([0, 0], [1, 1], prisms, 0xFFFF00, 0.95));//580nm
-rays.push(new BendRay([0, 0], [1, 1], prisms, 0x00FF00, 0.975));//510nm
-rays.push(new BendRay([0, 0], [1, 1], prisms, 0x0000FF, 1));//440nm
+var origin = [0, 0];
+var dir = [1, 1];
+rays.push(new BendRay(origin, dir, prisms, 0xFF0000, 0.9));//720nm
+rays.push(new BendRay(origin, dir, prisms, 0xFF9B00, 0.925));//610nm
+rays.push(new BendRay(origin, dir, prisms, 0xFFFF00, 0.95));//580nm
+rays.push(new BendRay(origin, dir, prisms, 0x00FF00, 0.975));//510nm
+rays.push(new BendRay(origin, dir, prisms, 0x0000FF, 1));//440nm
 rays.forEach((ray)=> {
 	stage.addChild(ray);
 });
@@ -100,8 +102,8 @@ function animate() {
 	var newMouse = stage.getMousePosition();
 	if (keypressed || newMouse.x != oldMouse.x || newMouse.y != oldMouse.y) {
 		/*rays.forEach((ray)=> {
-			ray.destination = [newMouse.x, newMouse.y];
-		});*/
+		 ray.destination = [newMouse.x, newMouse.y];
+		 });*/
 		prism1.position.x = newMouse.x;
 		prism1.position.y = newMouse.y;
 		//console.log(stage.getMousePosition());
