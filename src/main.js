@@ -51,6 +51,20 @@ kd.E.down(() => {
 	prism.rotation += 0.01;
 });
 
+kd.R.down(() => {
+	prism.refractionIndex += 0.01;
+	if(prism.refractionIndex > 5) {
+		prism.refractionIndex = 5;
+	}	
+});
+
+kd.T.down(() => {
+	prism.refractionIndex -= 0.01;
+	if(prism.refractionIndex < 1) {
+		prism.refractionIndex = 1;
+	}	
+});
+
 function animate() {
 	kd.tick();
 	//prism.rotation += 0.01;
