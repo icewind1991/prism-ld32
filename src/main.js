@@ -92,18 +92,43 @@ kd.T.down(() => {
 	keypressed = true;
 });
 
+var dragging = null;
+stage.mousedown = function() {
+	if(dragging == null) {
+		prisms.forEach((prism)=> {
+			console.log(stage.getMousePosition().x + " " + stage.getMousePosition().y);
+			if(SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y), 
+								new SAT.Polygon(new SAT.Vector(),
+												[new SAT.Vector(prism.position.x+0,prism.position.y-50), 
+												new SAT.Vector(prism.position.x-50,prism.position.y+50), 
+												new SAT.Vector(prism.position.x+50,prism.position.y+50)]))) {
+				dragging = prism;
+				console.log("clicked in prism");
+			} else {
+				console.log("clicked outside");
+			}
+		});
+	}
+}
+
+stage.mouseup = function() {
+	dragging = null;
+}
+
 var oldMouse = [];
 
 function animate() {
 	kd.tick();
 	//prism.rotation += 0.01;
-	var newMouse = stage.getMousePosition();
+	var newMouse = stage.getMousePosition();	
 	if (keypressed || newMouse.x != oldMouse.x || newMouse.y != oldMouse.y) {
 		/*rays.forEach((ray)=> {
 			ray.destination = [newMouse.x, newMouse.y];
 		});*/
-		prism1.position.x = newMouse.x;
-		prism1.position.y = newMouse.y;
+		if(dragging != null) {
+			dragging.position.x = newMouse.x;
+			dragging.position.y = newMouse.y;
+		}
 		//console.log(stage.getMousePosition());
 		rays.forEach((ray)=> {
 			ray.update();
