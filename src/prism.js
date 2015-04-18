@@ -1,4 +1,4 @@
-var PIXI = require('pixi');
+var PIXI = require('pixi.js');
 var segseg = require('segseg');
 var Ray = require('./ray');
 var Line = require('./line');
@@ -11,7 +11,9 @@ class Prism extends PIXI.Graphics {
 	}
 
 	init() {
-		this.beginFill(0xFFFFFF);
+		this.clear();
+		this.lineStyle(2, 0xFFFFFF, 1);
+		this.beginFill(0x000000);
 
 		// draw a triangle using lines
 		this.moveTo(0, -50);
@@ -39,11 +41,6 @@ class Prism extends PIXI.Graphics {
 			this.getRotatedPoint([-50, 50]),
 			this.getRotatedPoint([50, 50])
 		];
-		//return [
-		//	[this.position.x, this.position.y],
-		//	[this.position.x - 50, this.position.y + 100],
-		//	[this.position.x + 50, this.position.y + 100]
-		//]
 	}
 
 	getSegments() {
@@ -143,23 +140,6 @@ class Prism extends PIXI.Graphics {
 			}
 			i++;
 		}
-		//if (!segment2) {
-		//	return [line, internalRay];
-		//}
-		//// note that we invert our segment because we're comming from the inside
-		//var outAngle2 = this.getOutAngle(internalLine, [segment2[1], segment2[0]], ray.getRefractionIndex(this.refractionIndex));
-		//
-		//var direction2 = [Math.cos(outAngle2), Math.sin(outAngle2)];
-		//
-		//var outRay = new Ray(internalLine.end, direction2);
-		//
-		//var {line: internalLine2, segment: segment3} = this.intersectWithSegments(outRay); // internal reflection ?
-		//if (!internalLine2) {
-		//	parts.push(outRay);
-		//	return parts;
-		//}
-		//parts.push(internalLine2);
-		//// note that we invert our segment because we're comming from the inside
 
 		outAngle = this.getOutAngle(internalLine, [segment[1], segment[0]], 1 / ray.getRefractionIndex(this.refractionIndex));
 		//

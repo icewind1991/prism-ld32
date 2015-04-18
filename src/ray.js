@@ -1,4 +1,4 @@
-var PIXI = require('pixi');
+var PIXI = require('pixi.js');
 var Line = require('./line');
 
 class Ray extends PIXI.Graphics {

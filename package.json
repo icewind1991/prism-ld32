@@ -5,7 +5,7 @@
     "gulp": "^3.8.11",
     "gulp-sourcemaps": "^1.5.2",
     "keydrown": "^1.1.2",
-    "pixi": "^0.2.1",
+    "pixi.js": "^2.2.9",
     "segseg": "^0.2.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

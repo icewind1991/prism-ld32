@@ -1,4 +1,4 @@
-var PIXI = require('pixi');
+var PIXI = require('pixi.js');
 var Prism = require('./prism');
 var Line = require('./line');
 var Ray = require('./ray');
@@ -7,9 +7,12 @@ var kd = require('keydrown');
 
 var renderer = new PIXI.CanvasRenderer(800, 600);
 
+//var renderer = new PIXI.autoDetectRenderer(800, 600);
+
 document.body.appendChild(renderer.view);
 
 var stage = new PIXI.Stage;
+console.log(PIXI.blendModes);
 
 var prism = new Prism();
 prism.position.x = 150;

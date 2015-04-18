@@ -1,4 +1,4 @@
-var PIXI = require('pixi');
+var PIXI = require('pixi.js');
 
 class Line extends PIXI.Graphics {
 	constructor(origin, end) {

@@ -1,9 +1,10 @@
-var PIXI = require('pixi');
+var PIXI = require('pixi.js');
 var Ray = require('./ray');
 
 class BendRay extends Ray {
 	constructor(origin, direction, prism, color, refractionScale) {
 		super(origin, direction, color, refractionScale);
+		console.log(this.blendMode);
 		this.prism = prism;
 		this.update();
 	}
@@ -11,6 +12,7 @@ class BendRay extends Ray {
 	update() {
 		var pieces = this.prism.inputRay(this);
 		this.clear();
+		this.blendMode = PIXI.blendModes.ADD;
 		this.lineStyle(2, this.color, 1);
 		
 		this.moveTo(this.origin[0], this.origin[1]);
