@@ -7,7 +7,7 @@ class Prism extends PIXI.Graphics {
 	constructor() {
 		super();
 		this.init();
-		this.refractionIndex = 0.67;
+		this.refractionIndex = 1.5;
 	}
 
 	init() {
@@ -111,7 +111,7 @@ class Prism extends PIXI.Graphics {
 			return [ray];
 		}
 
-		var outAngle = this.getOutAngle(line, segment, ray.getRefractionIndex(this.refractionIndex));
+		var outAngle = this.getOutAngle(line, segment, 1 / ray.getRefractionIndex(this.refractionIndex));
 
 		var direction = [Math.cos(outAngle), Math.sin(outAngle)];
 
@@ -122,7 +122,7 @@ class Prism extends PIXI.Graphics {
 			return [line, internalRay];
 		}
 		// note that we invert our segment because we're comming from the inside
-		var outAngle2 = this.getOutAngle(internalLine, [segment2[1], segment2[0]], 1 / ray.getRefractionIndex(this.refractionIndex));
+		var outAngle2 = this.getOutAngle(internalLine, [segment2[1], segment2[0]], ray.getRefractionIndex(this.refractionIndex));
 
 		var direction2 = [Math.cos(outAngle2), Math.sin(outAngle2)];
 
