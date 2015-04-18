@@ -56,16 +56,22 @@ class Prism extends Manipulator {
 	}
 
 	inputRay(ray) {
+		if (!ray.getRefractionIndex) {
+			return [ray];
+		}
 		var [line, segment] = this.intersectWithSegments(ray);
 		if (!line || !segment) {
 			return [ray];
 		}
 
+		if (!ray.getRefractionIndex) {
+			console.log(ray);
+		}
 		var outAngle = this.getOutAngle(line, segment, ray.getRefractionIndex(this.refractionIndex));
 
 		var direction = [Math.cos(outAngle), Math.sin(outAngle)];
 
-		var internalRay = new Ray(line.end, direction);
+		var internalRay = new Ray(line.end, direction, ray.rayColor, ray.refractionScale);
 
 		var [newInternalLine, segment2] = this.intersectWithSegments(internalRay);
 		if (!segment2 || !newInternalLine) {
@@ -96,12 +102,9 @@ class Prism extends Manipulator {
 		}
 
 		outAngle = this.getOutAngle(internalLine, [segment[1], segment[0]], 1 / ray.getRefractionIndex(this.refractionIndex));
-		//
-		//
 		direction = [Math.cos(outAngle), Math.sin(outAngle)];
-		//
-		outRay = new Ray(internalLine.end, direction, ray.color, ray.refractionScale);
-		parts.push(outRay);
+		outRay = new Ray(internalLine.end, direction, ray.rayColor, ray.refractionScale);
+		console.log(parts);
 
 		return parts;
 	}

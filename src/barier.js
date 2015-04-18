@@ -1,6 +1,7 @@
 var PIXI = require('pixi.js');
+var Manipulator = require('./manipulator');
 
-class Barier extends PIXI.Graphics {
+class Barier extends Manipulator {
 	constructor(width, height, color) {
 		super();
 		this.barrierWidth = width;
@@ -22,19 +23,24 @@ class Barier extends PIXI.Graphics {
 	getPoints() {
 		return [
 			this.getRotatedPoint([0, 0]),
-			this.getRotatedPoint([this.barrierHeight, 0]),
-			this.getRotatedPoint([this.barrierHeight, this.barrierWidth]),
-			this.getRotatedPoint([0, this.barrierWidth])
+			this.getRotatedPoint([0, this.barrierHeight]),
+			this.getRotatedPoint([this.barrierWidth, this.barrierHeight]),
+			this.getRotatedPoint([this.barrierWidth, 0])
 		];
 	}
 
 	inputRay(ray) {
+		//console.log(ray);
+		//console.log(this.color);
+		if (ray.rayColor != this.color) {
+			return [ray];
+		}
 		var [line, segment] = this.intersectWithSegments(ray);
 		if (!line || !segment) {
 			return [ray];
+		} else {
+			return [line];
 		}
-
-
 	}
 }
 
