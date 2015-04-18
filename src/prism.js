@@ -104,7 +104,7 @@ class Prism extends Manipulator {
 		outAngle = this.getOutAngle(internalLine, [segment[1], segment[0]], 1 / ray.getRefractionIndex(this.refractionIndex));
 		direction = [Math.cos(outAngle), Math.sin(outAngle)];
 		outRay = new Ray(internalLine.end, direction, ray.rayColor, ray.refractionScale);
-		console.log(parts);
+		parts.push(outRay);
 
 		return parts;
 	}

@@ -55,48 +55,29 @@ requestAnimationFrame(animate);
 
 var keypressed = false;
 
-kd.A.down(() => {
-	prism1.position.x -= 1;
-	keypressed = true;
-});
-
-kd.S.down(() => {
-	prism1.position.y += 1;
-	keypressed = true;
-});
-
-kd.D.down(() => {
-	prism1.position.x += 1;
-	keypressed = true;
-});
-
-kd.W.down(() => {
-	prism1.position.y -= 1;
-	keypressed = true;
-});
-
 kd.Q.down(() => {
-	prism1.rotation -= 0.01;
+	dragging.rotation -= 0.01;
 	keypressed = true;
 });
 
 kd.E.down(() => {
-	prism1.rotation += 0.01;
+	dragging.rotation += 0.01;
 	keypressed = true;
 });
 
 kd.R.down(() => {
-	prism1.refractionIndex += 0.01;
-	if (prism1.refractionIndex > 2.5) {
-		prism1.refractionIndex = 2.5;
+	dragging.refractionIndex += 0.01;
+	if (dragging.refractionIndex > 2.5) {
+		dragging.refractionIndex = 2.5;
 	}
 	keypressed = true;
 });
 
+
 kd.T.down(() => {
-	prism1.refractionIndex -= 0.01;
-	if (prism1.refractionIndex < 1) {
-		prism1.refractionIndex = 1;
+	dragging.refractionIndex -= 0.01;
+	if (dragging.refractionIndex < 1) {
+		dragging.refractionIndex = 1;
 	}
 	keypressed = true;
 });
