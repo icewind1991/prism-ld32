@@ -2,10 +2,15 @@ var PIXI = require('pixi.js');
 var Ray = require('./ray');
 
 class BendRay extends Ray {
+	
+
 	constructor(origin, direction, prism, color, refractionScale) {
 		super(origin, direction, color, refractionScale);
 		console.log(this.blendMode);
 		this.prism = prism;
+		
+		this.lastCone = [];
+			
 		this.update();
 	}
 
@@ -25,14 +30,22 @@ class BendRay extends Ray {
 				this.lineStyle(2, 0xFFFFFF, 0);
 				this.beginFill(this.color);
 				
-				this.moveTo(piece.origin[0], piece.origin[1]);
+				
 				var angle = piece.angle;
 				var minAngle = angle-Math.PI/128;
 				var maxAngle = angle+Math.PI/128;
 				var minDir = [Math.cos(minAngle), Math.sin(minAngle)];
 				var maxDir = [Math.cos(maxAngle), Math.sin(maxAngle)];
+				this.lastCone = [piece.origin[0], piece.origin[1], 
+								piece.origin[0] - minDir[0] * 1000, piece.origin[1] - minDir[1] * 1000,
+								piece.origin[0] - maxDir[0] * 1000, piece.origin[1] - maxDir[1] * 1000];
+				/*this.moveTo(piece.origin[0], piece.origin[1]);
 				this.lineTo(piece.origin[0] - minDir[0] * 1000, piece.origin[1] - minDir[1] * 1000);
-				this.lineTo(piece.origin[0] - maxDir[0] * 1000, piece.origin[1] - maxDir[1] * 1000);
+				this.lineTo(piece.origin[0] - maxDir[0] * 1000, piece.origin[1] - maxDir[1] * 1000);*/
+				this.moveTo(this.lastCone[0], this.lastCone[1]);
+				this.lineTo(this.lastCone[2], this.lastCone[3]);
+				this.lineTo(this.lastCone[4], this.lastCone[5]);
+				
 				
 				this.endFill();
 			}
