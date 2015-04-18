@@ -20,11 +20,11 @@ prism.position.y = 200;
 
 stage.addChild(prism);
 var rays = [];
-rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0xFF0000, 1));
-rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0xFFA500, 0.975));
-rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0xFFFF00, 0.95));
-rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0x00FF00, 0.925));
-rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0x0000FF, 0.9));
+rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0xFF0000, 1));//720nm
+rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0xFF9B00, 0.975));//610nm
+rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0xFFFF00, 0.95));//580nm
+rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0x00FF00, 0.925));//510nm
+rays.push(new BendRay([0, renderer.view.height/4], [1, 1], prism, 0x0000FF, 0.9));//440nm
 rays.forEach((ray)=>{
 	stage.addChild(ray);
 });
@@ -56,8 +56,8 @@ kd.E.down(() => {
 
 kd.R.down(() => {
 	prism.refractionIndex += 0.01;
-	if(prism.refractionIndex > 5) {
-		prism.refractionIndex = 5;
+	if(prism.refractionIndex > 2.5) {
+		prism.refractionIndex = 2.5;
 	}	
 });
 
