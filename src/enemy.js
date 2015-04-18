@@ -8,13 +8,13 @@ class Enemy extends PIXI.Graphics {
 		this.currentColour = this.originalColour;
 		this.bounds = [];
 		this.init();
-		
+
 	}
 
 	init() {
 		this.clear();
 		this.lineStyle(2, 0xFFFFFF, 1);
-		
+
 		this.beginFill(this.currentColour);
 
 		this.bounds.push(800);
@@ -29,23 +29,19 @@ class Enemy extends PIXI.Graphics {
 		// end the fill
 		this.endFill();
 	}
-	
+
 	hit(colour) {
 		var red = colour & 0xFF0000;
 		var green = colour & 0x00FF00;
-		var blue = colour & 0x0000FF;		
-		var red = red/0xFF0000;
-		var green = green/0x00FF00;
-		var blue = blue/0x0000FF;
-		var red = red/100;
-		var green = green/100;
-		var blue = blue/100;
-		this.currentColour -= red*0xFF0000 + green*0x00FF00 + blue*0x0000FF;
-		if(this.currentColour < 0) {
+		var blue = colour & 0x0000FF;
+		red = red / 100;
+		green = green / 100;
+		blue = blue / 100;
+		this.currentColour -= (red & 0xFF0000) + (green & 0x00FF00) + (blue & 0x0000FF);
+		if (this.currentColour < 0) {
 			this.currentColour = 0;
 		}
-		console.log(this.currentColour);
-	}	
+	}
 }
 
 module.exports = Enemy;

@@ -109,19 +109,19 @@ function animate() {
 		oldMouse.x = newMouse.x;
 		oldMouse.y = newMouse.y;
 		keypressed = false;
-
-		enemies.forEach((enemy)=> {
-			rays.forEach((ray)=> {
-				if (ray.color == enemy.originalColour) {								
-					var cone = ray.currentCone;
-					if (intersects(cone, enemy.bounds)) {
-						enemy.hit(ray.color);
-						enemy.init();//update
-					}
-				}
-			});
-		});
 	}
+
+	enemies.forEach((enemy)=> {
+		rays.forEach((ray)=> {
+			if (ray.color == enemy.originalColour) {
+				var cone = ray.currentCone;
+				if (intersects(cone, enemy.bounds)) {
+					enemy.hit(ray.color);
+					enemy.init();//update
+				}
+			}
+		});
+	});
 
 	renderer.render(stage);
 
