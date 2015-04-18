@@ -2,8 +2,8 @@ var PIXI = require('pixi');
 var Ray = require('./ray');
 
 class BendRay extends Ray {
-	constructor(origin, direction, prism) {
-		super(origin, direction);
+	constructor(origin, direction, prism, color, refractionScale) {
+		super(origin, direction, color, refractionScale);
 		this.prism = prism;
 		this.update();
 	}

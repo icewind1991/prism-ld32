@@ -2,12 +2,12 @@ var PIXI = require('pixi');
 var Line = require('./line');
 
 class Ray extends PIXI.Graphics {
-	constructor(origin, direction) {
+	constructor(origin, direction, color, refractionScale) {
 		super();
 		this.origin = origin;
 		this.direction = direction;
-		this.color = 0xFF0000;
-		this.refractionScale = 1;
+		this.color = color;
+		this.refractionScale = refractionScale;
 	}
 
 	init() {
