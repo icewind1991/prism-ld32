@@ -26,6 +26,11 @@ class Ray extends PIXI.Graphics {
 	getRefractionIndex(materialIndex) {
 		return materialIndex * this.refractionScale;
 	}
+	
+	set destination(newDestination) {
+		this.direction[0] = newDestination[0] - this.origin[0];
+		this.direction[1] = newDestination[1] - this.origin[1];
+	}
 }
 
 module.exports = Ray;

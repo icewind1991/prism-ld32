@@ -7,7 +7,7 @@ class Prism extends PIXI.Graphics {
 	constructor() {
 		super();
 		this.init();
-		this.refractionIndex = 0.8;
+		this.refractionIndex = 0.67;
 	}
 
 	init() {
