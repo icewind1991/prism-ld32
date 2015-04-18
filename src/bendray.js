@@ -18,13 +18,10 @@ class BendRay extends Ray {
 			if (piece.end) {
 				this.lineTo(piece.end[0], piece.end[1]);
 			} else {
-				this.lineTo(piece.origin[0] + piece.direction[0] * 1000, piece.origin[1] + piece.direction[1] * 1000);
+				this.lineTo(piece.origin[0] + piece.direction[0] * 1000,
+					piece.origin[1] + piece.direction[1] * 1000);
 			}
 		});
-
-
-		// end the fill
-		//this.endFill();
 	}
 
 	get length() {
