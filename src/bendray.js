@@ -57,20 +57,12 @@ class BendRay extends Ray {
 			if (piece.end) {
 				this.lineTo(piece.end[0], piece.end[1]);
 			} else {
-				this.lineStyle(2, 0xFFFFFF, 0);
+				this.lineStyle(2, this.color, 1);
 				this.beginFill(this.color);
-				var angle = piece.angle;
-				var minAngle = angle - Math.PI / 128;
-				var maxAngle = angle + Math.PI / 128;
-				var minDir = [Math.cos(minAngle), Math.sin(minAngle)];
-				var maxDir = [Math.cos(maxAngle), Math.sin(maxAngle)];
 				this.lastCone = [piece.origin[0], piece.origin[1],
-					piece.origin[0] - minDir[0] * 1000, piece.origin[1] - minDir[1] * 1000,
-					piece.origin[0] - maxDir[0] * 1000, piece.origin[1] - maxDir[1] * 1000];
+					piece.origin[0] + piece.direction[0] * 1000, piece.origin[1] + piece.direction[1] * 1000];
 
-				this.moveTo(this.lastCone[0], this.lastCone[1]);
 				this.lineTo(this.lastCone[2], this.lastCone[3]);
-				this.lineTo(this.lastCone[4], this.lastCone[5]);
 
 				this.endFill();
 			}

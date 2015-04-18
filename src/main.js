@@ -24,6 +24,14 @@ var prism2 = new Prism();
 prism2.position.x = 550;
 prism2.position.y = 500;
 
+var prism3 = new Prism();
+prism3.position.x = 550;
+prism3.position.y = 200;
+
+var prism4 = new Prism();
+prism4.position.x = 550;
+prism4.position.y = 100;
+
 var barier = new Barier(20, 200, 0xFF0000);
 
 barier.position.x = 250;
@@ -31,8 +39,10 @@ barier.position.y = 200;
 
 stage.addChild(prism1);
 stage.addChild(prism2);
+stage.addChild(prism3);
+stage.addChild(prism4);
 stage.addChild(barier);
-var prisms = [prism1, prism2, barier];
+var prisms = [prism1, prism2, barier, prism3, prism4];
 var rays = [];
 var origin = [0, 0];
 var dir = [1, 1];
@@ -143,7 +153,7 @@ function animate() {
 function intersects(cone, enemyBounds) {
 	var conePol = new SAT.Polygon(new SAT.Vector(), [
 		new SAT.Vector(cone[0], cone[1]),
-		new SAT.Vector(cone[4], cone[5]),
+		new SAT.Vector(cone[2], cone[3]),
 		new SAT.Vector(cone[2], cone[3])
 	]);
 
