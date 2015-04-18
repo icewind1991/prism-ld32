@@ -5,6 +5,7 @@ class Enemy extends PIXI.Graphics {
 	constructor(colour) {
 		super();
 		this.colour = colour;
+		this.bounds = [];
 		this.init();
 	}
 
@@ -14,11 +15,15 @@ class Enemy extends PIXI.Graphics {
 		this.beginFill(this.colour);
 
 		// draw a triangle using lines
-		this.moveTo(700, 600);
-		this.lineTo(700, 580);
-		this.lineTo(680, 580);
-		this.lineTo(680, 600);
+		this.moveTo(800, 600);
+		this.lineTo(800, 580);
+		this.lineTo(780, 580);
+		this.lineTo(780, 600);
 
+		this.bounds.push(780);
+		this.bounds.push(600);
+		this.bounds.push(800);
+		this.bounds.push(580);
 		// end the fill
 		this.endFill();
 	}

@@ -5,6 +5,7 @@ var Ray = require('./ray');
 var Enemy = require('./enemy');
 var BendRay = require('./bendray');
 var kd = require('keydrown');
+var SAT = require('sat');
 
 var renderer = new PIXI.CanvasRenderer(800, 600);
 
@@ -96,7 +97,7 @@ function animate() {
 	kd.tick();
 	//prism.rotation += 0.01;
 	var newMouse = stage.getMousePosition();
-	if(keypressed || newMouse.x != oldMouse.x || newMouse.x != oldMouse.x) {
+	if(keypressed || newMouse.x != oldMouse.x || newMouse.y != oldMouse.y) {
 		rays.forEach((ray)=> {
 			ray.destination = [newMouse.x, newMouse.y];
 		});
@@ -107,9 +108,35 @@ function animate() {
 		oldMouse.x = newMouse.x;
 		oldMouse.y = newMouse.y;
 		keypressed = false;
+		
+		enemies.forEach((enemy)=> {
+			rays.forEach((ray)=> {
+				if(ray.color == enemy.colour) {
+					console.log("cone: " + ray.color + " enemy: " + enemy.colour);
+					var cone = ray.currentCone;
+					if(intersects(cone, enemy.bounds)) {
+						console.log("raak");
+					}
+				}								
+			});
+		});
 	}
-	
+		
 	renderer.render(stage);
 	
 	requestAnimationFrame(animate);
 }
+
+function intersects(cone, enemyBounds) {
+	var conePol = new SAT.Polygon(new SAT.Vector(), [
+		new SAT.Vector(cone[0], cone[1]),
+		new SAT.Vector(cone[4], cone[5]),
+		new SAT.Vector(cone[2], cone[3])
+	]);
+	
+	var box = new SAT.Box(new SAT.Vector(enemyBounds[2], enemyBounds[3], 20, 20));
+	var boxPol = box.toPolygon();
+	
+	return SAT.testPolygonPolygon(conePol, boxPol);
+}
+

@@ -54,7 +54,15 @@ class BendRay extends Ray {
 			}
 		});
 	}
-
+	
+	get currentCone() {
+		return this.lastCone;
+	}
+	
+	get getcolor() {
+		return super.color;
+	}
+	
 	get length() {
 		return Math.sqrt(Math.pow(this.end[0] - this.origin[0], 2) + Math.pow(this.end[1] - this.origin[1], 2));
 	}
