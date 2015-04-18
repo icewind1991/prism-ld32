@@ -31,13 +31,19 @@ class Enemy extends PIXI.Graphics {
 	}
 
 	hit(colour) {
-		var red = colour & 0xFF0000;
-		var green = colour & 0x00FF00;
-		var blue = colour & 0x0000FF;
-		red = red / 100;
-		green = green / 100;
-		blue = blue / 100;
-		this.currentColour -= (red & 0xFF0000) + (green & 0x00FF00) + (blue & 0x0000FF);
+		var red = this.currentColour & 0xFF0000;
+		var green = this.currentColour & 0x00FF00;
+		var blue = this.currentColour & 0x0000FF;
+		var newRed = colour & 0xFF0000;
+		var newGreen = colour & 0x00FF00;
+		var newBlue = colour & 0x0000FF;
+		newRed = newRed / 100;
+		newGreen = newGreen / 100;
+		newBlue = newBlue / 100;
+		red = Math.max(0, red - newRed);
+		green = Math.max(0, green - newGreen);
+		blue = Math.max(0, blue - newBlue);
+		this.currentColour = (red & 0xFF0000) + (green & 0x00FF00) + (blue & 0x0000FF);
 		if (this.currentColour < 0) {
 			this.currentColour = 0;
 		}

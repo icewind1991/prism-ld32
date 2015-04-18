@@ -37,7 +37,7 @@ rays.forEach((ray)=> {
 });
 
 var enemies = [];
-enemies.push(new Enemy(0xFF0000));
+enemies.push(new Enemy(0xFFFF00));
 enemies.forEach((enemy)=> {
 	stage.addChild(enemy);
 });
@@ -113,7 +113,7 @@ function animate() {
 
 	enemies.forEach((enemy)=> {
 		rays.forEach((ray)=> {
-			if (ray.hitPrism && ray.color == enemy.originalColour) {
+			if (ray.hitPrism) {
 				var cone = ray.currentCone;
 				if (intersects(cone, enemy.bounds)) {
 					enemy.hit(ray.color);
