@@ -113,7 +113,7 @@ function animate() {
 
 	enemies.forEach((enemy)=> {
 		rays.forEach((ray)=> {
-			if (ray.color == enemy.originalColour) {
+			if (ray.hitPrism && ray.color == enemy.originalColour) {
 				var cone = ray.currentCone;
 				if (intersects(cone, enemy.bounds)) {
 					enemy.hit(ray.color);

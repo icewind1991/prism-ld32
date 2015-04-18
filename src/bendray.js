@@ -7,16 +7,17 @@ class BendRay extends Ray {
 		this.prisms = prisms;
 		this.update();
 		this.lastCone = [];
+		this.hitPrism = false;
 	}
 
 	update() {
 		var pieces = this.prisms.reduce((pieces, prism, i) => {
 			var output = pieces.pop();
-			//console.log(output);
 			var newPieces = prism.inputRay(output);
-			//console.log(newPieces);
-			if (newPieces.length === 2 && i == 1) {
-				//a = 1;
+			if(newPieces.length > 1) {
+				this.hitPrism = true;
+			} else {
+				this.hitPrism = false;
 			}
 			return pieces.concat(newPieces);
 		}, [this]);
