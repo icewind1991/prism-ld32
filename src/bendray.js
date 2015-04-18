@@ -4,7 +4,6 @@ var Ray = require('./ray');
 class BendRay extends Ray {
 	constructor(origin, direction, prism, color, refractionScale) {
 		super(origin, direction, color, refractionScale);
-		console.log(this.blendMode);
 		this.prism = prism;
 		this.update();
 	}

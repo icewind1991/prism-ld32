@@ -12,7 +12,6 @@ var renderer = new PIXI.CanvasRenderer(800, 600);
 document.body.appendChild(renderer.view);
 
 var stage = new PIXI.Stage;
-console.log(PIXI.blendModes);
 
 var prism = new Prism();
 prism.position.x = 150;
