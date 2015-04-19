@@ -23,7 +23,7 @@ var level = new Level(require('../level.json'));
 level.applyToStage(stage);
 
 var enemies = [];
-enemies.push(new Enemy(0xFFFF00));
+enemies.push(new Enemy(0xFFFF00, [800, 600], [780, 580]));
 enemies.forEach((enemy)=> {
 	stage.addChild(enemy);
 });
@@ -125,7 +125,7 @@ function animate() {
 		level.rays.forEach((ray)=> {
 			if (ray.hitPrism) {
 				var cone = ray.currentCone;
-				if (intersects(cone, enemy.bounds)) {
+				if (intersects(cone, enemy.bottomright, enemy.topleft)) {
 					enemy.hit(ray.color);
 					enemyhit = true;
 					enemy.init();//update
@@ -179,7 +179,7 @@ function hasCollisions(prism, newx, newy, newrot) {
 	return collision;
 }
 
-function intersects(cone, enemyBounds) {
+function intersects(cone, bottomright, topleft) {
 	var conePol = new SAT.Polygon(new SAT.Vector(), [
 		new SAT.Vector(cone[0], cone[1]),
 		new SAT.Vector(cone[2], cone[3]),
@@ -187,10 +187,10 @@ function intersects(cone, enemyBounds) {
 	]);
 
 	var boxPol = new SAT.Polygon(new SAT.Vector(), [
-		new SAT.Vector(enemyBounds[0], enemyBounds[1]),
-		new SAT.Vector(enemyBounds[0], enemyBounds[3]),
-		new SAT.Vector(enemyBounds[2], enemyBounds[3]),
-		new SAT.Vector(enemyBounds[2], enemyBounds[1])
+		new SAT.Vector(bottomright[0], bottomright[1]),
+		new SAT.Vector(bottomright[0], topleft[1]),
+		new SAT.Vector(topleft[0], topleft[1]),
+		new SAT.Vector(topleft[0], bottomright[1])
 	]);
 
 	return SAT.testPolygonPolygon(conePol, boxPol);
