@@ -180,8 +180,7 @@ function animate() {
 			var dragX = newMouse.x - offset[0];
 			var dragY = newMouse.y - offset[1];
 			if (hasCollisions(dragging, dragX, dragY, dragging.rotation)) {
-				console.log('collide');
-				//TODO offset
+			
 			} else {
 				dragging.position.x = dragX;
 				dragging.position.y = dragY;
@@ -253,25 +252,37 @@ function animate() {
 	requestAnimationFrame(animate);
 }
 
-function hasCollisions(prism, newx, newy, newrot) {
+//check collision or outside playing field
+function hasCollisions(prism, newx, newy, newrot) {	
+	var collision = false;
 	var oldx = prism.position.x;
 	var oldy = prism.position.y;
 	var oldrot = prism.rotation;
 	prism.position.x = newx;
 	prism.position.y = newy;
 	prism.rotation = newrot;
-	var prismpoly = prismToPolygon(prism);
-	var collision = false;
+	
+	var points = prism.getPoints();
+	points.forEach((point)=> {
+		if(point[0] < 0 || point[0] > 800 || point[1] < 0 || point[1] > 600) {
+			collision = true;
+		}
+	});
+	
+	var prismpoly = prismToPolygon(prism);	
 	stage.activeLevel.objects.forEach((otherprism)=> {
 		if (otherprism != prism) {
-			if (SAT.testPolygonPolygon(prismpoly, prismToPolygon(otherprism))) {
-				prism.position.x = oldx;
-				prism.position.y = oldy;
-				prism.rotation = oldrot;
+			if (SAT.testPolygonPolygon(prismpoly, prismToPolygon(otherprism))) {				
 				collision = true;
 			}
 		}
 	});
+	
+	if(collision) {
+		prism.position.x = oldx;
+		prism.position.y = oldy;
+		prism.rotation = oldrot;
+	}
 	return collision;
 }
 
