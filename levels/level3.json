@@ -1,31 +1,31 @@
 {
 	"prisms": [
 		{
-			"x": 100,
-			"y": 100,
+			"x": 354,
+			"y": 154,
 			"rotation": 0
 		}
 	],
-	"filters": [		
+	"filters": [	
+		{
+			"x": 454,
+			"y": 282,
+			"width": 20,
+			"height": 100,
+			"rotation": 0.5,
+			"color": "00FF00"
+		}
 	],
 	"mirrors": [		
 	],
 	"enemies": [
 		{
 			"x": 755,
-			"y": 480,
-			"width": 20,
-			"height": 20,
-			"rotation": 1,
-			"color": "0000FF"
-		},
-		{
-			"x": 755,
 			"y": 455,
 			"width": 20,
 			"height": 20,
 			"rotation": 1,
-			"color": "00FFFF"
+			"color": "00FF00"
 		}, 
 		{
 			"x": 755,
@@ -41,23 +41,15 @@
 			"width": 20,
 			"height": 20,
 			"rotation": 1,
-			"color": "FFFF00"
-		}, 
-		{
-			"x": 755,
-			"y": 380,
-			"width": 20,
-			"height": 20,
-			"rotation": 1,
-			"color": "FF0000"
+			"color": "00FF00"
 		}
 	],
 	"message": {
-		"text": "Drag the prism to kill \r\nthe enemies with light",
+		"text": "This is a filter",
 		"font": "50px Arial", 
 		"fill": "red",
-		"x": 50,
-		"y": 450
+		"x": 200,
+		"y": 50
 	},
 	"light": {
 		"origin": [

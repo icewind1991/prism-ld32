@@ -21,8 +21,11 @@ document.body.appendChild(renderer.view);
 var stage = new PIXI.Stage;
 
 var levels = {
-	0: require('../levels/level0.json'),
-	1: require('../levels/level.json'),
+	0: require('../levels/level.json'),
+	1: require('../levels/level0.json'),
+	2: require('../levels/level1.json'),
+	3: require('../levels/level2.json'),
+	4: require('../levels/level3.json'),
 };
 
 stage.activeLevel = null;
@@ -116,6 +119,8 @@ function mouseWheelHandler(e) {
 		} else {
 			tryRotate(hovering, hovering.rotation + 0.01);
 		}
+		console.log(hovering.rotation);
+		console.log(hovering.position.x+ ", " + hovering.position.y);
 	}
 }
 

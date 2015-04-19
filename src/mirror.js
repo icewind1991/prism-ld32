@@ -14,7 +14,7 @@ class Mirror extends Manipulator {
 	init() {
 		this.clear();
 
-		this.beginFill(this.color, 0.5);
+		this.beginFill(this.color, 1);
 
 		this.drawRect(0, 0, this.mirrorWidth, this.mirrorHeight);
 

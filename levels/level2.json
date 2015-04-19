@@ -8,11 +8,18 @@
 	],
 	"filters": [		
 	],
-	"mirrors": [		
+	"mirrors": [
+		{
+			"x": 564,
+			"y": 405,
+			"width": 5,
+			"height": 100,
+			"rotation": 0.3
+		}
 	],
 	"enemies": [
 		{
-			"x": 755,
+			"x": 20,
 			"y": 480,
 			"width": 20,
 			"height": 20,
@@ -20,7 +27,7 @@
 			"color": "0000FF"
 		},
 		{
-			"x": 755,
+			"x": 20,
 			"y": 455,
 			"width": 20,
 			"height": 20,
@@ -28,7 +35,7 @@
 			"color": "00FFFF"
 		}, 
 		{
-			"x": 755,
+			"x": 20,
 			"y": 430,
 			"width": 20,
 			"height": 20,
@@ -36,7 +43,7 @@
 			"color": "00FF00"
 		},
 		{
-			"x": 755,
+			"x": 20,
 			"y": 405,
 			"width": 20,
 			"height": 20,
@@ -44,7 +51,7 @@
 			"color": "FFFF00"
 		}, 
 		{
-			"x": 755,
+			"x": 20,
 			"y": 380,
 			"width": 20,
 			"height": 20,
@@ -53,11 +60,11 @@
 		}
 	],
 	"message": {
-		"text": "Drag the prism to kill \r\nthe enemies with light",
+		"text": "This is a mirror",
 		"font": "50px Arial", 
 		"fill": "red",
-		"x": 50,
-		"y": 450
+		"x": 200,
+		"y": 50
 	},
 	"light": {
 		"origin": [
@@ -66,7 +73,7 @@
 		],
 		"direction": [
 			1,
-			-0.5
+			-0.2
 		]
 	}
 }
