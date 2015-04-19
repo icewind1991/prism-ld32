@@ -77,13 +77,21 @@ var hovering = null;
 var dragging = null;
 var offset = [0, 0];
 
+function getMousePosition() {
+	if (currentTouchPos.x > 0) {
+		newMouse = currentTouchPos;
+	} else {
+		var newMouse = stage.getMousePosition();
+	}
+	return {
+		x: newMouse.x / scale,
+		y: newMouse.y / scale
+	};
+}
+
 stage.mousedown = function () {
 	if (dragging == null) {
-		var newMouse = stage.getMousePosition();
-		newMouse = {
-			x: newMouse.x /= scale,
-			y: newMouse.y /= scale
-		};
+		var newMouse = getMousePosition();
 		stage.activeLevel.manipulators.forEach((prism)=> {
 			if (SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
@@ -104,28 +112,55 @@ wheel(document, mouseWheelHandler);
 function mouseWheelHandler(e) {
 	if (hovering != null) {
 		if (e.wheelDelta < 0) {
-			if (!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation - 0.01)) {
-				hovering.rotation -= 0.01;
-				keypressed = true;
-			}
+			tryRotate(hovering, hovering.rotation - 0.01);
 		} else {
-			if (!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation + 0.01)) {
-				hovering.rotation += 0.01;
-				keypressed = true;
-			}
+			tryRotate(hovering, hovering.rotation + 0.01);
 		}
 	}
+}
+
+function tryRotate(prism, newRotation) {
+	if (!hasCollisions(prism, prism.position.x, prism.position.y, newRotation)) {
+		prism.rotation = newRotation;
+		keypressed = true;
+	}
+}
+
+var currentTouchPos = {x: -1, y: -1};
+
+document.body.addEventListener("touchstart", onTouchStart, true);
+document.body.addEventListener("touchend", onTouchEnd, true);
+document.body.addEventListener("touchmove", onTouchMove, true);
+
+function onTouchStart(event) {
+	currentTouchPos.x = event.touches[0].pageX;
+	currentTouchPos.y = event.touches[0].pageY;
+	stage.mousedown();
+}
+
+function onTouchMove(event) {
+	currentTouchPos.x = event.touches[0].pageX;
+	currentTouchPos.y = event.touches[0].pageY;
+	if (event.touches[1]) {
+		var angle = -Math.atan2(event.touches[1].pageX - event.touches[0].pageX, event.touches[1].pageY - event.touches[0].pageY) + Math.PI;
+		if (dragging) {
+			tryRotate(dragging, angle);
+		}
+		console.log(angle);
+	}
+}
+
+function onTouchEnd(event) {
+	currentTouchPos.x = -1;
+	currentTouchPos.y = -1;
+	stage.mouseup();
 }
 
 var oldMouse = [];
 
 function animate() {
 	kd.tick();
-	var newMouse = stage.getMousePosition();
-	newMouse = {
-		x: newMouse.x / scale,
-		y: newMouse.y / scale
-	};
+	var newMouse = getMousePosition();
 	if (keypressed || newMouse.x != oldMouse.x || newMouse.y != oldMouse.y) {
 		if (dragging != null) {
 			var dragX = newMouse.x - offset[0];
