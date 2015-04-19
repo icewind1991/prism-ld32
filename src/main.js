@@ -20,9 +20,10 @@ document.body.appendChild(renderer.view);
 
 var stage = new PIXI.Stage;
 
-var levels = {
-	0: require('../levels/level0.json'),
-	1: require('../levels/level.json'),
+var levels = {	
+	0: require('../levels/level.json'),
+	1: require('../levels/level0.json'),
+	2: require('../levels/level1.json'),
 };
 
 stage.activeLevel = null;

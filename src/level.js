@@ -48,10 +48,12 @@ class Level {
 			stage.addChild(enemy);
 		});
 		
-		var text = new PIXI.Text(this.json.message.text, {font: this.json.message.font, fill: this.json.message.fill});		
-		text.position.x = this.json.message.x;
-		text.position.y = this.json.message.y;
-		stage.addChild(text);
+		if(this.json.message) {
+			var text = new PIXI.Text(this.json.message.text, {font: this.json.message.font, fill: this.json.message.fill});		
+			text.position.x = this.json.message.x;
+			text.position.y = this.json.message.y;
+			stage.addChild(text);
+		}
 
 		this.rays = [];
 		var origin = this.json.light.origin;
