@@ -120,7 +120,7 @@ function mouseWheelHandler(e) {
 			tryRotate(hovering, hovering.rotation + 0.01);
 		}
 		console.log(hovering.rotation);
-		console.log(hovering.position.x+ ", " + hovering.position.y);
+		console.log(hovering.position.x + ", " + hovering.position.y);
 	}
 }
 
@@ -151,7 +151,6 @@ function onTouchMove(event) {
 		if (dragging) {
 			tryRotate(dragging, angle);
 		}
-		console.log(angle);
 	}
 }
 
@@ -249,3 +248,6 @@ function prismToPolygon(prism) {
 		}));
 }
 
+window.save = function () {
+	console.log(JSON.stringify(stage.activeLevel.toJSON(), null, "\t"));
+};

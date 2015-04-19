@@ -32,7 +32,7 @@ class Level {
 		});
 		this.enemies = this.json.enemies.map((def) => {
 			return new Enemy([def.x, def.y], [def.x + def.width, def.y + def.height], parseInt(def.color, 16));
-		});		
+		});
 		this.manipulators = this.prisms.concat(this.filters, this.mirrors);
 		this.rays = [];
 		this.scene = new PIXI.DisplayObjectContainer();
@@ -47,9 +47,12 @@ class Level {
 		this.enemies.forEach((enemy)=> {
 			stage.addChild(enemy);
 		});
-		
-		if(this.json.message) {
-			var text = new PIXI.Text(this.json.message.text, {font: this.json.message.font, fill: this.json.message.fill});		
+
+		if (this.json.message) {
+			var text = new PIXI.Text(this.json.message.text, {
+				font: this.json.message.font,
+				fill: this.json.message.fill
+			});
 			text.position.x = this.json.message.x;
 			text.position.y = this.json.message.y;
 			stage.addChild(text);
@@ -66,6 +69,52 @@ class Level {
 		this.rays.forEach((ray)=> {
 			stage.addChild(ray);
 		});
+	}
+
+	toJSON() {
+		//[def.x, def.y], [def.x + def.width, def.y + def.height], parseInt(def.color, 16)
+		var json = {};
+		json.light = {
+			origin   : this.rays[0].origin,
+			direction: this.rays[0].direction,
+		};
+		json.prisms = this.prisms.map((prism) => {
+			return {
+				x       : prism.position.x,
+				y       : prism.position.y,
+				rotation: prism.rotation
+			}
+		});
+		json.filters = this.filters.map((filter) => {
+			return {
+				x       : filter.position.x,
+				y       : filter.position.y,
+				width   : filter.barrierWidth,
+				height  : filter.barrierHeight,
+				color   : filter.color.toString(16),
+				rotation: filter.rotation
+			}
+		});
+		json.mirrors = this.mirrors.map((mirror) => {
+			return {
+				x       : mirror.position.x,
+				y       : mirror.position.y,
+				width   : mirror.mirrorWidth,
+				height  : mirror.mirrorHeight,
+				rotation: mirror.rotation
+			}
+		});
+		json.enemies = this.enemies.map((enemy) => {
+			return {
+				x       : enemy.bottomright[0],
+				y       : enemy.bottomright[1],
+				width   : enemy.topleft[0] - enemy.bottomright[0],
+				height  : enemy.topleft[1] - enemy.bottomright[1],
+				color   : enemy.originalColour.toString(16),
+				rotation: enemy.rotation
+			}
+		});
+		return json;
 	}
 }
 
