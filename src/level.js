@@ -32,7 +32,7 @@ class Level {
 		});
 		this.enemies = this.json.enemies.map((def) => {
 			return new Enemy([def.x, def.y], [def.x + def.width, def.y + def.height], parseInt(def.color, 16));
-		});
+		});		
 		this.manipulators = this.prisms.concat(this.filters, this.mirrors);
 		this.rays = [];
 		this.scene = new PIXI.DisplayObjectContainer();
@@ -47,6 +47,11 @@ class Level {
 		this.enemies.forEach((enemy)=> {
 			stage.addChild(enemy);
 		});
+		
+		var text = new PIXI.Text(this.json.message.text, {font: this.json.message.font, fill: this.json.message.fill});		
+		text.position.x = this.json.message.x;
+		text.position.y = this.json.message.y;
+		stage.addChild(text);
 
 		this.rays = [];
 		var origin = this.json.light.origin;

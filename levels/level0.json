@@ -53,6 +53,13 @@
 			"color": "FF0000"
 		}
 	],
+	"message": {
+		"text": "Drag the prism to kill \r\n the enemies with light",
+		"font": "50px Arial", 
+		"fill": "red",
+		"x": 200,
+		"y": 100
+	},
 	"light": {
 		"origin": [
 			0,
