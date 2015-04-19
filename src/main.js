@@ -26,7 +26,9 @@ var levels = {
 	2: require('../levels/tutorials/mirrors.json'),
 	3: require('../levels/tutorials/filters.json'),
 	4: require('../levels/tutorials/rotation.json'),
-	5: require('../levels/tutorials/combine.json')
+	5: require('../levels/tutorials/combine.json'),
+	6: require('../levels/easy/1.json'),
+	7: require('../levels/easy/2.json'),
 };
 
 stage.activeLevel = null;
