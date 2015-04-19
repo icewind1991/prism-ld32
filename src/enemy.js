@@ -8,7 +8,6 @@ class Enemy extends PIXI.Graphics {
 		this.currentColour = this.originalColour;
 		this.bounds = [];
 		this.init();
-
 	}
 
 	init() {
@@ -46,6 +45,25 @@ class Enemy extends PIXI.Graphics {
 		this.currentColour = (red & 0xFF0000) + (green & 0x00FF00) + (blue & 0x0000FF);
 		if (this.currentColour < 0) {
 			this.currentColour = 0;
+		}
+	}
+	
+	regen() {
+		var red = this.currentColour & 0xFF0000;
+		var green = this.currentColour & 0x00FF00;
+		var blue = this.currentColour & 0x0000FF;
+		var newRed = this.originalColour & 0xFF0000;
+		var newGreen = this.originalColour & 0x00FF00;
+		var newBlue = this.originalColour & 0x0000FF;
+		newRed = newRed / 100;
+		newGreen = newGreen / 100;
+		newBlue = newBlue / 100;
+		red = Math.min(0xFF0000, red + newRed);
+		green = Math.min(0x00FF00, green + newGreen);
+		blue = Math.min(0x0000FF, blue + newBlue);
+		this.currentColour = (red & 0xFF0000) + (green & 0x00FF00) + (blue & 0x0000FF);
+		if (this.currentColour > this.colour) {
+			this.currentColour = this.colour;
 		}
 	}
 }

@@ -159,15 +159,21 @@ function animate() {
 	}
 
 	enemies.forEach((enemy)=> {
+		var enemyhit = false;
 		rays.forEach((ray)=> {
 			if (ray.hitPrism) {
 				var cone = ray.currentCone;
 				if (intersects(cone, enemy.bounds)) {
 					enemy.hit(ray.color);
+					enemyhit = true;
 					enemy.init();//update
-				}
+				} 
 			}
 		});
+		if(!enemyhit) {
+			enemy.regen();
+			enemy.init();//update
+		}
 	});
 
 	renderer.render(stage);
