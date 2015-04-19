@@ -93,15 +93,19 @@ kd.T.down(() => {
 });
 
 var dragging = null;
+var offset = [0,0];
+
 stage.mousedown = function () {
 	if (dragging == null) {
 		prisms.forEach((prism)=> {
+			var points = prism.getPoints();
 			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
 					new SAT.Polygon(new SAT.Vector(),
-						[new SAT.Vector(prism.position.x + 0, prism.position.y - 50),
-							new SAT.Vector(prism.position.x - 50, prism.position.y + 50),
-							new SAT.Vector(prism.position.x + 50, prism.position.y + 50)]))) {
+						points.map((point)=> {
+							return new SAT.Vector(point[0], point[1]);
+						})))) {
 				dragging = prism;
+				offset = [stage.getMousePosition().x - prism.position.x, stage.getMousePosition().y - prism.position.y];
 			}
 		});
 	}
@@ -109,6 +113,7 @@ stage.mousedown = function () {
 
 stage.mouseup = function () {
 	dragging = null;
+	offset = [0,0];
 }
 
 var oldMouse = [];
@@ -122,8 +127,8 @@ function animate() {
 		 ray.destination = [newMouse.x, newMouse.y];
 		 });*/
 		if (dragging != null) {
-			dragging.position.x = newMouse.x;
-			dragging.position.y = newMouse.y;
+			dragging.position.x = newMouse.x - offset[0];
+			dragging.position.y = newMouse.y - offset[1];
 		}
 		rays.forEach((ray)=> {
 			ray.update();
