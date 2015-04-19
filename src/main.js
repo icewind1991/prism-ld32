@@ -46,11 +46,18 @@ var prisms = [prism1, prism2, barier, prism3, prism4];
 var rays = [];
 var origin = [0, 0];
 var dir = [1, 1];
-rays.push(new BendRay(origin, dir, prisms, 0xFF0000, 0.9));//720nm
-rays.push(new BendRay(origin, dir, prisms, 0xFF9B00, 0.925));//610nm
-rays.push(new BendRay(origin, dir, prisms, 0xFFFF00, 0.95));//580nm
-rays.push(new BendRay(origin, dir, prisms, 0x00FF00, 0.975));//510nm
-rays.push(new BendRay(origin, dir, prisms, 0x0000FF, 1));//440nm
+var refrectionScales = {
+	0xFF0000: 0.9,
+	0xFF9B00: 0.925,
+	0xFFFF00: 0.95,
+	0x00FF00: 0.975,
+	0x0000FF: 1
+};
+rays.push(new BendRay(origin, dir, prisms, 0xFF0000, refrectionScales));//720nm
+rays.push(new BendRay(origin, dir, prisms, 0xFF9B00, refrectionScales));//610nm
+rays.push(new BendRay(origin, dir, prisms, 0xFFFF00, refrectionScales));//580nm
+rays.push(new BendRay(origin, dir, prisms, 0x00FF00, refrectionScales));//510nm
+rays.push(new BendRay(origin, dir, prisms, 0x0000FF, refrectionScales));//440nm
 rays.forEach((ray)=> {
 	stage.addChild(ray);
 });
@@ -93,7 +100,7 @@ kd.T.down(() => {
 });
 
 var dragging = null;
-var offset = [0,0];
+var offset = [0, 0];
 
 stage.mousedown = function () {
 	if (dragging == null) {
@@ -113,7 +120,7 @@ stage.mousedown = function () {
 
 stage.mouseup = function () {
 	dragging = null;
-	offset = [0,0];
+	offset = [0, 0];
 }
 
 var oldMouse = [];

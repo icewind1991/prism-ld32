@@ -2,13 +2,15 @@ var PIXI = require('pixi.js');
 var Line = require('./line');
 
 class Ray extends PIXI.Graphics {
-	constructor(origin, direction, color, refractionScale) {
+	constructor(origin, direction, color, refractionScales) {
 		super();
 		this.origin = origin;
 		this.direction = direction;
 		this.rayColor = color;
 		this.color = color;
-		this.refractionScale = refractionScale;
+		this.refractionScales = refractionScales;
+
+		this.colorRefractionScale = refractionScales[this.color];
 	}
 
 	init() {
@@ -25,7 +27,7 @@ class Ray extends PIXI.Graphics {
 	}
 
 	getRefractionIndex(materialIndex) {
-		return materialIndex * this.refractionScale;
+		return materialIndex * this.colorRefractionScale;
 	}
 
 	set destination(newDestination) {
