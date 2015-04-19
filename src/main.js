@@ -3,6 +3,7 @@ var Prism = require('./prism');
 var Line = require('./line');
 var Ray = require('./ray');
 var Barier = require('./barier');
+var Mirror = require('./mirror');
 var Enemy = require('./enemy');
 var BendRay = require('./bendray');
 var kd = require('keydrown');
@@ -37,12 +38,17 @@ var barier = new Barier(20, 200, 0xFF88FF);
 barier.position.x = 250;
 barier.position.y = 200;
 
+var mirror = new Mirror(20, 200, 0xFFFFFF);
+mirror.position.x = 100;
+mirror.position.y = 300;
+
 stage.addChild(prism1);
 stage.addChild(prism2);
 stage.addChild(prism3);
 stage.addChild(prism4);
 stage.addChild(barier);
-var prisms = [prism1, prism2, barier, prism3, prism4];
+stage.addChild(mirror);
+var prisms = [prism1, prism2, barier, prism3, prism4, mirror];
 var rays = [];
 var origin = [0, 0];
 var dir = [1, 1];
@@ -67,15 +73,19 @@ var keypressed = false;
 
 kd.Q.down(() => {
 	if(dragging != null) {
-		dragging.rotation -= 0.01;
-		keypressed = true;
+		if(!hasCollisions(dragging, dragging.position.x, dragging.position.y, dragging.rotation - 0.01)) {
+			dragging.rotation -= 0.01;
+			keypressed = true;
+		}
 	}
 });
 
 kd.E.down(() => {
 	if(dragging != null) {
-		dragging.rotation += 0.01;
-		keypressed = true;
+		if(!hasCollisions(dragging, dragging.position.x, dragging.position.y, dragging.rotation + 0.01)) {
+			dragging.rotation += 0.01;
+			keypressed = true;
+		}
 	}
 });
 
@@ -133,7 +143,7 @@ function animate() {
 		if (dragging != null){
 			var dragx = newMouse.x - offset[0];
 			var dragy = newMouse.y - offset[1];
-			if(hasCollisions(dragging, dragx, dragy)) {
+			if(hasCollisions(dragging, dragx, dragy, dragging.rotation)) {
 				//TODO offset
 			} else {
 				dragging.position.x = dragx;
@@ -165,11 +175,13 @@ function animate() {
 	requestAnimationFrame(animate);
 }
 
-function hasCollisions(prism, newx, newy) {
+function hasCollisions(prism, newx, newy, newrot) {
 	var oldx = prism.position.x;
 	var oldy = prism.position.y;	
+	var oldrot = prism.rotation;
 	prism.position.x = newx;
 	prism.position.y = newy;
+	prism.rotation = newrot;
 	var prismpoly = prismToPolygon(prism);
 	var collision = false;
 	prisms.forEach((otherprism)=> {
@@ -177,6 +189,7 @@ function hasCollisions(prism, newx, newy) {
 			if(SAT.testPolygonPolygon(prismpoly, prismToPolygon(otherprism))) {
 				prism.position.x = oldx;
 				prism.position.y = oldy;
+				prism.rotation = oldrot;
 				collision = true;
 			}
 		}
