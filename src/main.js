@@ -8,6 +8,7 @@ var Enemy = require('./enemy');
 var BendRay = require('./bendray');
 var kd = require('keydrown');
 var SAT = require('sat');
+var wheel = require('wheel');
 
 var renderer = new PIXI.CanvasRenderer(800, 600);
 
@@ -105,16 +106,17 @@ stage.mousedown = function () {
 			}
 		});
 	}
-}
+};
 
 stage.mouseup = function () {
 	dragging = null;
 	offset = [0, 0];
-}
+};
 
-document.addEventListener("mousewheel", mouseWheelHandler, false);
+wheel(document, mouseWheelHandler);
 
 function mouseWheelHandler(e) {
+	console.log(hovering);
 	if(hovering != null) {
 		if(e.wheelDelta < 0) {
 			if(!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation - 0.01)) {
@@ -167,7 +169,7 @@ function animate() {
 					enemy.hit(ray.color);
 					enemyhit = true;
 					enemy.init();//update
-				} 
+				}
 			}
 		});
 		if(!enemyhit) {
@@ -175,7 +177,7 @@ function animate() {
 			enemy.init();//update
 		}
 	});
-	
+
 	if(dragging == null) { //only check for hover updates when not dragging
 		var nowhovering = false;
 		prisms.forEach((prism)=> {
@@ -184,7 +186,7 @@ function animate() {
 				nowhovering = true;
 				hovering = prism;
 			}
-		});		
+		});
 		if(!nowhovering) {
 			hovering = null;
 		}
@@ -197,7 +199,7 @@ function animate() {
 
 function hasCollisions(prism, newx, newy, newrot) {
 	var oldx = prism.position.x;
-	var oldy = prism.position.y;	
+	var oldy = prism.position.y;
 	var oldrot = prism.rotation;
 	prism.position.x = newx;
 	prism.position.y = newy;
