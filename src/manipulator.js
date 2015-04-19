@@ -13,7 +13,7 @@ class Manipulator extends GameObject {
 
 	intersectWithSegments(ray) {
 		var segments = this.getSegments();
-		var lineSeg = [[ray.origin[0], ray.origin[1]], [ray.origin[0] + (ray.direction[0] * 1000), ray.origin[1] + (ray.direction[1] * 1000)]];
+		var lineSeg = [[ray.origin[0], ray.origin[1]], [ray.destination[0], ray.destination[1]]];
 		var intersections = segments.map((segment) => {
 			var point = segseg(
 				segment[0][0], segment[0][1], segment[1][0], segment[1][1],
@@ -44,6 +44,15 @@ class Manipulator extends GameObject {
 			return [ray, null];
 		}
 		return [inputLines[0], inputLines[0].segment];
+	}
+
+	getDistance(ray) {
+		var [line, segment] = this.intersectWithSegments(ray);
+		if (segment) {
+			return line.length;
+		} else {
+			return Number.MAX_VALUE;
+		}
 	}
 }
 

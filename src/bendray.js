@@ -1,5 +1,6 @@
 var PIXI = require('pixi.js');
 var Ray = require('./ray');
+var Line = require('./line');
 
 class BendRay extends Ray {
 	constructor(origin, direction, prisms, color, refractionScale) {
@@ -7,7 +8,6 @@ class BendRay extends Ray {
 		this.prisms = prisms;
 		this.update();
 		this.pieces = [];
-		this.hitPrism = false;
 	}
 
 	update() {
@@ -15,30 +15,28 @@ class BendRay extends Ray {
 		var prisms = this.prisms.slice(0); //clone
 		var piece = pieces[pieces.length - 1];
 		prisms.sort((a, b) => {
-			var distanceA = Math.pow(a.position.x - piece.origin[0], 2) + Math.pow(a.position.y - piece.origin[1], 2);
-			var distanceB = Math.pow(b.position.x - piece.origin[0], 2) + Math.pow(b.position.y - piece.origin[1], 2);
-			return distanceA - distanceB;
+			return a.getDistance(piece) - b.getDistance(piece);
 		});
 		while (prisms.length) {
 			var prism = prisms.shift();
 			var inputPiece = pieces.pop();
 			var newPieces = prism.inputRay(inputPiece);
-			if (newPieces.length > 1) {
-				// retry all prisms on hit
-				prisms = this.prisms.slice(0);
-				piece = newPieces[newPieces.length - 1];
-				prisms.sort((a, b) => {
-					var distanceA = Math.pow(a.position.x - piece.origin[0], 2) + Math.pow(a.position.y - piece.origin[1], 2);
-					var distanceB = Math.pow(b.position.x - piece.origin[0], 2) + Math.pow(b.position.y - piece.origin[1], 2);
-					return distanceA - distanceB;
-				});
+			if (newPieces) {
+				if (newPieces.length > 1) {
+					// retry all prisms on hit
+					prisms = this.prisms.slice(0);
+					piece = newPieces[newPieces.length - 1];
+					prisms.sort((a, b) => {
+						return a.getDistance(piece) - b.getDistance(piece);
+					});
+				}
+				pieces = pieces.concat(newPieces);
+			} else {
+				pieces.push(inputPiece);
 			}
-			pieces = pieces.concat(newPieces);
 		}
 		this.pieces = pieces;
 
-
-		this.hitPrism = (pieces.length > 1);
 		this.clear();
 		this.blendMode = PIXI.blendModes.ADD;
 		this.lineStyle(2, this.color, 1);

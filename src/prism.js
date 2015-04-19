@@ -57,11 +57,11 @@ class Prism extends Manipulator {
 
 	inputRay(ray) {
 		if (!ray.getRefractionIndex) {
-			return [ray];
+			return false;
 		}
 		var [line, segment] = this.intersectWithSegments(ray);
 		if (!line || !segment) {
-			return [ray];
+			return false;
 		}
 
 		if (!ray.getRefractionIndex) {

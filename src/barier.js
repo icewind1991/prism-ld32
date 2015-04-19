@@ -34,13 +34,14 @@ class Barier extends Manipulator {
 
 		var [line, segment] = this.intersectWithSegments(ray);
 		if (!line || !segment) {
-			return [ray];
+			return false;
 		} else {
 			var parts = [line];
 			var newColor = ray.rayColor & this.color;
 			if (newColor === 0x000000) {
 				return parts;
 			} else {
+				console.log(newColor);
 				var newRay = new Ray(line.end, ray.direction, newColor);
 				parts.push(newRay);
 				return parts;

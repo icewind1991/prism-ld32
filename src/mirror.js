@@ -32,7 +32,7 @@ class Mirror extends Manipulator {
 	
 	inputRay(ray) {
 		if (!ray.getRefractionIndex) {
-			return [ray];
+			return false;
 		}
 		var [line, segment] = this.intersectWithSegments(ray);
 		if (!line || !segment) {
