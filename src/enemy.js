@@ -46,7 +46,6 @@ class Enemy extends PIXI.Graphics {
 			return piece;
 		});
 		collisions.forEach((piece) => {
-			console.log(piece.color);
 			this.hit(piece.color);
 		});
 		return collisions.length > 0;

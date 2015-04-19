@@ -1,3 +1,4 @@
+var PIXI = require('pixi.js');
 var Prism = require('./prism');
 var Line = require('./line');
 var BendRay = require('./bendray');
@@ -34,9 +35,11 @@ class Level {
 		});
 		this.manipulators = this.prisms.concat(this.filters, this.mirrors);
 		this.rays = [];
+		this.scene = new PIXI.DisplayObjectContainer();
+		this.applyToScene(this.scene);
 	}
 
-	applyToStage(stage) {
+	applyToScene(stage) {
 		this.manipulators.forEach((manipulator) => {
 			stage.addChild(manipulator);
 		});

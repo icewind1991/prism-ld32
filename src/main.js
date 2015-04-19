@@ -16,8 +16,32 @@ document.body.appendChild(renderer.view);
 
 var stage = new PIXI.Stage;
 
-var level = new Level(require('../level.json'));
-level.applyToStage(stage);
+var levels = {
+	0: require('../levels/level0.json'),
+	1: require('../levels/level.json'),
+};
+
+stage.activeLevel = null;
+function loadLevel(number) {
+	if (stage.activeLevel) {
+		stage.removeChild(stage.activeLevel.scene);
+	}
+	var level = new Level(levels[number]);
+	stage.activeLevel = level;
+	stage.addChild(level.scene);
+}
+
+function hashChange() {
+	var hash = window.location.hash.substr(1);
+	console.log(hash);
+	if (hash) {
+		loadLevel(hash);
+	} else {
+		loadLevel(0);
+	}
+}
+window.onhashchange = hashChange;
+hashChange();
 
 requestAnimationFrame(animate);
 
@@ -50,7 +74,7 @@ var offset = [0, 0];
 
 stage.mousedown = function () {
 	if (dragging == null) {
-		level.manipulators.forEach((prism)=> {
+		stage.activeLevel.manipulators.forEach((prism)=> {
 			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
 					prismToPolygon(prism))) {
 				dragging = prism;
@@ -103,7 +127,7 @@ function animate() {
 				dragging.position.y = dragy;
 			}
 		}
-		level.rays.forEach((ray)=> {
+		stage.activeLevel.rays.forEach((ray)=> {
 			ray.update();
 		});
 		oldMouse.x = newMouse.x;
@@ -111,9 +135,9 @@ function animate() {
 		keypressed = false;
 	}
 
-	level.enemies.forEach((enemy)=> {
+	stage.activeLevel.enemies.forEach((enemy)=> {
 		var enemyhit = false;
-		level.rays.forEach((ray)=> {
+		stage.activeLevel.rays.forEach((ray)=> {
 			if (enemy.collisionCheck(ray)) {
 				enemyhit = true;
 				enemy.init();//update
@@ -127,7 +151,7 @@ function animate() {
 
 	if (dragging == null) { //only check for hover updates when not dragging
 		var nowhovering = false;
-		level.manipulators.forEach((prism)=> {
+		stage.activeLevel.manipulators.forEach((prism)=> {
 			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
 					prismToPolygon(prism))) {
 				nowhovering = true;
@@ -153,7 +177,7 @@ function hasCollisions(prism, newx, newy, newrot) {
 	prism.rotation = newrot;
 	var prismpoly = prismToPolygon(prism);
 	var collision = false;
-	level.manipulators.forEach((otherprism)=> {
+	stage.activeLevel.manipulators.forEach((otherprism)=> {
 		if (otherprism != prism) {
 			if (SAT.testPolygonPolygon(prismpoly, prismToPolygon(otherprism))) {
 				prism.position.x = oldx;
