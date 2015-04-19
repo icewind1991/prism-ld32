@@ -9,6 +9,7 @@ class Enemy extends GameObject {
 		this.currentColour = this.originalColour;
 		this.bottomright = bottomright;
 		this.topleft = topleft;
+		this.isDragable = false;
 		this.init();
 	}
 
@@ -98,6 +99,10 @@ class Enemy extends GameObject {
 			this.getRotatedPoint([this.topleft[0], this.topleft[1]]),
 			this.getRotatedPoint([this.topleft[0], this.bottomright[1]])
 		];
+	}
+	
+	toggleCheat() {
+		this.isDragable = !this.isDragable;
 	}
 }
 

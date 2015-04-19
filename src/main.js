@@ -46,7 +46,7 @@ function loadLevel(number) {
 
 function hashChange() {
 	var hash = window.location.hash.substr(1);
-	console.log(hash);
+	//console.log(hash);
 	if (hash) {
 		levelNumber = parseInt(hash, 10);
 	} else {
@@ -107,7 +107,7 @@ stage.mousedown = function () {
 	if (dragging == null) {
 		var newMouse = getMousePosition();
 		stage.activeLevel.objects.forEach((prism)=> {
-			if (SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
+			if (prism.isDragable && SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
 				dragging = prism;
 				offset = [newMouse.x - prism.position.x, newMouse.y - prism.position.y];
@@ -215,7 +215,7 @@ function animate() {
 	if (dragging == null) { //only check for hover updates when not dragging
 		var nowHovering = false;
 		stage.activeLevel.objects.forEach((prism)=> {
-			if (SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
+			if (prism.isDragable && SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
 				nowHovering = true;
 				hovering = prism;
@@ -296,4 +296,10 @@ function prismToPolygon(prism) {
 
 window.save = function () {
 	console.log(JSON.stringify(stage.activeLevel.toJSON(), null, "\t"));
-};
+}
+
+window.edit = function() {
+	stage.activeLevel.objects.forEach((object)=> {
+		object.toggleCheat();
+	});
+}

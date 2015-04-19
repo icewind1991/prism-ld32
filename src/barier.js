@@ -8,6 +8,7 @@ class Barier extends Manipulator {
 		this.barrierWidth = width;
 		this.barrierHeight = height;
 		this.color = color;
+		this.isDragable = false;
 		this.init();
 	}
 
@@ -41,12 +42,15 @@ class Barier extends Manipulator {
 			if (newColor === 0x000000) {
 				return parts;
 			} else {
-				console.log(newColor);
 				var newRay = new Ray(line.end, ray.direction, newColor);
 				parts.push(newRay);
 				return parts;
 			}
 		}
+	}
+	
+	toggleCheat() {
+		this.isDragable = !this.isDragable;
 	}
 }
 

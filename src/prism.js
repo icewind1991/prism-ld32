@@ -8,6 +8,7 @@ class Prism extends Manipulator {
 	constructor() {
 		super();
 		this.init();
+		this.isDragable = true;
 		this.refractionIndex = 2;
 	}
 
@@ -107,6 +108,10 @@ class Prism extends Manipulator {
 		parts.push(outRay);
 
 		return parts;
+	}
+	
+	toggleCheat() {
+		this.isDragable = true;
 	}
 }
 

@@ -7,6 +7,7 @@ class Mirror extends Manipulator {
 		super();
 		this.mirrorWidth = width;
 		this.mirrorHeight = height;
+		this.isDragable = false;
 		this.color = 0xFFFFFF;
 		this.init();
 	}
@@ -53,6 +54,10 @@ class Mirror extends Manipulator {
 				segment[0][0] - segment[1][0]) - 0.5 * Math.PI;// normal of segment
 		var inAngle = (angle1 - angle2) % (2 * Math.PI);
 		return angle2 - inAngle;
+	}
+	
+	toggleCheat() {
+		this.isDragable = !this.isDragable;
 	}
 }
 
