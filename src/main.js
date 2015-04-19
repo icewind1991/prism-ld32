@@ -31,6 +31,7 @@ var levels = {
 	6: require('../levels/easy/1.json'),
 	7: require('../levels/easy/2.json'),
 	8: require('../levels/easy/3.json'),
+	9: require('../levels/easy/4.json'),
 };
 
 stage.activeLevel = null;
