@@ -29,6 +29,7 @@ var levels = {
 	5: require('../levels/tutorials/combine.json'),
 	6: require('../levels/easy/1.json'),
 	7: require('../levels/easy/2.json'),
+	8: require('../levels/easy/3.json'),
 };
 
 stage.activeLevel = null;
@@ -86,6 +87,20 @@ kd.T.down(() => {
 			dragging.refractionIndex = 1;
 		}
 		keypressed = true;
+	}
+});
+
+kd.SPACE.press(() => {
+	if(hovering != null && hovering.isDragable) {
+		console.log("clearing: " + hovering);
+		var index = stage.activeLevel.objects.indexOf(hovering);		
+		hovering.clear();
+		stage.activeLevel.objects.splice(index, 1);
+		stage.removeChild(hovering);
+		if(dragging != null) {
+			dragging = null;
+		}	
+		hovering = null;
 	}
 });
 

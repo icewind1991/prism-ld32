@@ -1,0 +1,53 @@
+{
+	"light": {
+		"origin": [
+			0,
+			400
+		],
+		"direction": [
+			1,
+			-0.2
+		]
+	},
+	"prisms": [
+		{
+			"x": 100,
+			"y": 100,
+			"rotation": 0
+		},
+		{
+			"x": 300,
+			"y": 100,
+			"rotation": 0
+		},
+	],
+	"filters": [],
+	"mirrors": [
+	],
+	"enemies": [
+		{
+			"x": 770,
+			"y": 325,
+			"width": 20,
+			"height": 20,
+			"color": "ff",
+			"rotation": 0
+		},
+		{
+			"x": 770,
+			"y": 360,
+			"width": 20,
+			"height": 20,
+			"color": "ff00",
+			"rotation": 0
+		},
+		{
+			"x": 770,
+			"y": 395,
+			"width": 20,
+			"height": 20,
+			"color": "ff0000",
+			"rotation": 0
+		}
+	]
+}

@@ -113,6 +113,7 @@ class Prism extends Manipulator {
 	toggleCheat() {
 		this.isDragable = true;
 	}
+	
 }
 
 module.exports = Prism;
