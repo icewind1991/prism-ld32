@@ -107,8 +107,8 @@ class Level {
 		});
 		json.enemies = this.enemies.map((enemy) => {
 			return {
-				x       : enemy.bottomright[0],
-				y       : enemy.bottomright[1],
+				x       : enemy.bottomright[0] + enemy.position.x,
+				y       : enemy.bottomright[1] + enemy.position.y,
 				width   : enemy.topleft[0] - enemy.bottomright[0],
 				height  : enemy.topleft[1] - enemy.bottomright[1],
 				color   : enemy.originalColour.toString(16),

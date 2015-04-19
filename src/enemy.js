@@ -28,10 +28,10 @@ class Enemy extends GameObject {
 
 	collisionCheck(bendRay) {
 		var boxPol = new SAT.Polygon(new SAT.Vector(), [
-			new SAT.Vector(this.bottomright[0], this.bottomright[1]),
-			new SAT.Vector(this.bottomright[0], this.topleft[1]),
-			new SAT.Vector(this.topleft[0], this.topleft[1]),
-			new SAT.Vector(this.topleft[0], this.bottomright[1])
+			new SAT.Vector(this.bottomright[0] + this.position.x, this.bottomright[1] + this.position.y),
+			new SAT.Vector(this.bottomright[0] + this.position.x, this.topleft[1] + this.position.y),
+			new SAT.Vector(this.topleft[0] + this.position.x, this.topleft[1] + this.position.y),
+			new SAT.Vector(this.topleft[0] + this.position.x, this.bottomright[1] + this.position.y)
 		]);
 		var collisions = bendRay.pieces.map((piece) => {
 			var conePol = new SAT.Polygon(new SAT.Vector(), [

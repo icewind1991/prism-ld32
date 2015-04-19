@@ -1,79 +1,4 @@
 {
-	"prisms": [
-		{
-			"x": 100,
-			"y": 100,
-			"rotation": 0
-		}
-	],
-	"filters": [
-		{
-			"x": 454,
-			"y": 282,
-			"width": 20,
-			"height": 100,
-			"rotation": 0.5,
-			"color": "00FF00"
-		}
-	],
-	"mirrors": [
-		{
-			"x": 564,
-			"y": 405,
-			"width": 5,
-			"height": 100,
-			"rotation": 0.3
-		}
-	],
-	"enemies": [
-		{
-			"x": 20,
-			"y": 480,
-			"width": 20,
-			"height": 20,
-			"rotation": 1,
-			"color": "0000FF"
-		},
-		{
-			"x": 20,
-			"y": 455,
-			"width": 20,
-			"height": 20,
-			"rotation": 1,
-			"color": "00FFFF"
-		},
-		{
-			"x": 20,
-			"y": 430,
-			"width": 20,
-			"height": 20,
-			"rotation": 1,
-			"color": "00FF00"
-		},
-		{
-			"x": 20,
-			"y": 405,
-			"width": 20,
-			"height": 20,
-			"rotation": 1,
-			"color": "FFFF00"
-		},
-		{
-			"x": 20,
-			"y": 380,
-			"width": 20,
-			"height": 20,
-			"rotation": 1,
-			"color": "FF0000"
-		}
-	],
-	"message": {
-		"text": "This is a mirror",
-		"font": "50px Arial",
-		"fill": "red",
-		"x": 200,
-		"y": 50
-	},
 	"light": {
 		"origin": [
 			0,
@@ -83,5 +8,73 @@
 			1,
 			-0.2
 		]
-	}
+	},
+	"prisms": [
+		{
+			"x": 100,
+			"y": 100,
+			"rotation": 0
+		}
+	],
+	"filters": [
+		{
+			"x": 502.46796657381617,
+			"y": 190.91364902506962,
+			"width": 20,
+			"height": 100,
+			"color": "ff00",
+			"rotation": 0.029999999999999694
+		}
+	],
+	"mirrors": [
+		{
+			"x": 597.4261838440112,
+			"y": 320.59888579387183,
+			"width": 5,
+			"height": 100,
+			"rotation": 0.6800000000000003
+		}
+	],
+	"enemies": [
+		{
+			"x": 523.899721448468,
+			"y": 236.82451253481898,
+			"width": 20,
+			"height": 20,
+			"color": "ff",
+			"rotation": 0
+		},
+		{
+			"x": 548.133704735376,
+			"y": 236.89415041782735,
+			"width": 20,
+			"height": 20,
+			"color": "ffff",
+			"rotation": 0
+		},
+		{
+			"x": 228.91364902506962,
+			"y": 94.06685236768806,
+			"width": 20,
+			"height": 20,
+			"color": "ff00",
+			"rotation": 0
+		},
+		{
+			"x": 229.7493036211699,
+			"y": 57.36768802228414,
+			"width": 20,
+			"height": 20,
+			"color": "ffff00",
+			"rotation": 0
+		},
+		{
+			"x": 228.91364902506962,
+			"y": 21.50417827298054,
+			"width": 20,
+			"height": 20,
+			"color": "ff0000",
+			"rotation": 0
+		}
+	]
 }
