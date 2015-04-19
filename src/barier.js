@@ -41,7 +41,7 @@ class Barier extends Manipulator {
 			if (newColor === 0x000000) {
 				return parts;
 			} else {
-				var newRay = new Ray(line.end, ray.direction, newColor, ray.refractionScales);
+				var newRay = new Ray(line.end, ray.direction, newColor);
 				parts.push(newRay);
 				return parts;
 			}

@@ -32,7 +32,7 @@ var prism4 = new Prism();
 prism4.position.x = 550;
 prism4.position.y = 100;
 
-var barier = new Barier(20, 200, 0xFF00FF);
+var barier = new Barier(20, 200, 0xFF88FF);
 
 barier.position.x = 250;
 barier.position.y = 200;
@@ -46,18 +46,11 @@ var prisms = [prism1, prism2, barier, prism3, prism4];
 var rays = [];
 var origin = [0, 0];
 var dir = [1, 1];
-var refrectionScales = {
-	0xFF0000: 0.9,
-	0xFF9B00: 0.925,
-	0xFFFF00: 0.95,
-	0x00FF00: 0.975,
-	0x0000FF: 1
-};
-rays.push(new BendRay(origin, dir, prisms, 0xFF0000, refrectionScales));//720nm
-rays.push(new BendRay(origin, dir, prisms, 0xFF9B00, refrectionScales));//610nm
-rays.push(new BendRay(origin, dir, prisms, 0xFFFF00, refrectionScales));//580nm
-rays.push(new BendRay(origin, dir, prisms, 0x00FF00, refrectionScales));//510nm
-rays.push(new BendRay(origin, dir, prisms, 0x0000FF, refrectionScales));//440nm
+rays.push(new BendRay(origin, dir, prisms, 0xFF0000));//720nm
+rays.push(new BendRay(origin, dir, prisms, 0x00FFFF));//610nm
+rays.push(new BendRay(origin, dir, prisms, 0xFFFF00));//580nm
+rays.push(new BendRay(origin, dir, prisms, 0x00FF00));//510nm
+rays.push(new BendRay(origin, dir, prisms, 0x0000FF));//440nm
 rays.forEach((ray)=> {
 	stage.addChild(ray);
 });

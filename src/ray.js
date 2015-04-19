@@ -1,16 +1,49 @@
 var PIXI = require('pixi.js');
 var Line = require('./line');
 
+function rgbToH(rgb) {
+	var red = rgb & 0xFF0000;
+	var green = rgb & 0x00FF00;
+	var blue = rgb & 0x0000FF;
+	var r = red / 0xFF0000;
+	var g = green / 0x00FF00;
+	var b = blue / 0x0000FF;
+	var max = Math.max(r, g, b), min = Math.min(r, g, b);
+	var h;
+
+	if (max == min) {
+		h = 0; // achromatic
+	} else {
+		var d = max - min;
+		switch (max) {
+			case r:
+				h = (g - b) / d + (g < b ? 6 : 0);
+				break;
+			case g:
+				h = (b - r) / d + 2;
+				break;
+			case b:
+				h = (r - g) / d + 4;
+				break;
+		}
+		h /= 6;
+	}
+
+	return h;
+}
+
 class Ray extends PIXI.Graphics {
-	constructor(origin, direction, color, refractionScales) {
+	constructor(origin, direction, color) {
 		super();
 		this.origin = origin;
 		this.direction = direction;
 		this.rayColor = color;
 		this.color = color;
-		this.refractionScales = refractionScales;
+		var h = rgbToH(this.color);
 
-		this.colorRefractionScale = refractionScales[this.color];
+		this.colorRefractionScale = 1 - ((1 - h) / 10);
+		this.colorRefractionScale = 1 - ((1 - h) / 10);
+		console.log(this.colorRefractionScale);
 	}
 
 	init() {
