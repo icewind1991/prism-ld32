@@ -3,6 +3,7 @@ var Prism = require('./prism');
 var Line = require('./line');
 var Ray = require('./ray');
 var Barier = require('./barier');
+var Mirror = require('./mirror');
 var Enemy = require('./enemy');
 var BendRay = require('./bendray');
 var kd = require('keydrown');
@@ -33,16 +34,20 @@ prism4.position.x = 550;
 prism4.position.y = 100;
 
 var barier = new Barier(20, 200, 0xFF00FF);
-
 barier.position.x = 250;
 barier.position.y = 200;
+
+var mirror = new Mirror(20, 200, 0xFFFFFF);
+mirror.position.x = 100;
+mirror.position.y = 300;
 
 stage.addChild(prism1);
 stage.addChild(prism2);
 stage.addChild(prism3);
 stage.addChild(prism4);
 stage.addChild(barier);
-var prisms = [prism1, prism2, barier, prism3, prism4];
+stage.addChild(mirror);
+var prisms = [prism1, prism2, barier, prism3, prism4, mirror];
 var rays = [];
 var origin = [0, 0];
 var dir = [1, 1];
