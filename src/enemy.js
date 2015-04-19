@@ -2,11 +2,12 @@ var PIXI = require('pixi.js');
 var segseg = require('segseg');
 
 class Enemy extends PIXI.Graphics {
-	constructor(colour) {
+	constructor(colour, bottomright, topleft) {
 		super();
 		this.originalColour = colour;
 		this.currentColour = this.originalColour;
-		this.bounds = [];
+		this.bottomright = bottomright;
+		this.topleft = topleft;
 		this.init();
 	}
 
@@ -16,15 +17,10 @@ class Enemy extends PIXI.Graphics {
 
 		this.beginFill(this.currentColour);
 
-		this.bounds.push(800);
-		this.bounds.push(600);
-		this.bounds.push(780);
-		this.bounds.push(580);
-
-		this.moveTo(800, 600);
-		this.lineTo(800, 580);
-		this.lineTo(780, 580);
-		this.lineTo(780, 600);
+		this.moveTo(this.bottomright[0], this.bottomright[1]);
+		this.lineTo(this.bottomright[0], this.topleft[1]);
+		this.lineTo(this.topleft[0], this.topleft[1]);
+		this.lineTo(this.topleft[0], this.bottomright[1]);
 		// end the fill
 		this.endFill();
 	}
@@ -55,9 +51,9 @@ class Enemy extends PIXI.Graphics {
 		var newRed = this.originalColour & 0xFF0000;
 		var newGreen = this.originalColour & 0x00FF00;
 		var newBlue = this.originalColour & 0x0000FF;
-		newRed = newRed / 100;
-		newGreen = newGreen / 100;
-		newBlue = newBlue / 100;
+		newRed = newRed / 10;
+		newGreen = newGreen / 10;
+		newBlue = newBlue / 10;
 		red = Math.min(0xFF0000, red + newRed);
 		green = Math.min(0x00FF00, green + newGreen);
 		blue = Math.min(0x0000FF, blue + newBlue);
