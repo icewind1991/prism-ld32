@@ -1,18 +1,8 @@
 var PIXI = require('pixi.js');
 var Line = require('./line');
+var GameObject = require('./object');
 
-class Manipulator extends PIXI.Graphics {
-	getRotatedPoint(point) {
-		var s = Math.sin(this.rotation);
-		var c = Math.cos(this.rotation);
-
-		// rotate point
-		var xNew = point[0] * c - point[1] * s;
-		var yNew = point[0] * s + point[1] * c;
-
-		return [xNew + this.position.x, yNew + this.position.y];
-	}
-
+class Manipulator extends GameObject {
 	getSegments() {
 		var points = this.getPoints();
 		return points.map((point, i) => {

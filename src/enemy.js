@@ -1,7 +1,8 @@
 var PIXI = require('pixi.js');
 var SAT = require('sat');
+var GameObject = require('./object');
 
-class Enemy extends PIXI.Graphics {
+class Enemy extends GameObject {
 	constructor(bottomright, topleft, colour) {
 		super();
 		this.originalColour = colour;
@@ -88,6 +89,15 @@ class Enemy extends PIXI.Graphics {
 		if (this.currentColour > this.colour) {
 			this.currentColour = this.colour;
 		}
+	}
+
+	getPoints() {
+		return [
+			this.getRotatedPoint([this.bottomright[0], this.bottomright[1]]),
+			this.getRotatedPoint([this.bottomright[0], this.topleft[1]]),
+			this.getRotatedPoint([this.topleft[0], this.topleft[1]]),
+			this.getRotatedPoint([this.topleft[0], this.bottomright[1]])
+		];
 	}
 }
 

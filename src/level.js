@@ -34,6 +34,7 @@ class Level {
 			return new Enemy([def.x, def.y], [def.x + def.width, def.y + def.height], parseInt(def.color, 16));
 		});
 		this.manipulators = this.prisms.concat(this.filters, this.mirrors);
+		this.objects = this.manipulators.concat(this.enemies);
 		this.rays = [];
 		this.scene = new PIXI.DisplayObjectContainer();
 		this.applyToScene(this.scene);

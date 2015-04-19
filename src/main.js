@@ -24,8 +24,9 @@ var levels = {
 	0: require('../levels/level.json'),
 	1: require('../levels/tutorials/drag.json'),
 	2: require('../levels/tutorials/mirrors.json'),
-	3: require('../levels/tutorials/filters.json'),	
+	3: require('../levels/tutorials/filters.json'),
 	4: require('../levels/tutorials/rotation.json'),
+	5: require('../levels/tutorials/all.json')
 };
 
 stage.activeLevel = null;
@@ -34,12 +35,12 @@ function loadLevel(number) {
 	if (stage.activeLevel) {
 		stage.removeChild(stage.activeLevel.scene);
 	}
-	if(levels[number]) {
+	if (levels[number]) {
 		var level = new Level(levels[number]);
 		stage.activeLevel = level;
 		level.scene.scale = {x: scale, y: scale};
 		stage.addChild(level.scene);
-	} 
+	}
 }
 
 function hashChange() {
@@ -48,7 +49,7 @@ function hashChange() {
 	if (hash) {
 		levelNumber = parseInt(hash, 10);
 	} else {
-		levelNumber = 0;		
+		levelNumber = 0;
 	}
 	loadLevel(levelNumber);
 }
@@ -99,7 +100,7 @@ function getMousePosition() {
 stage.mousedown = function () {
 	if (dragging == null) {
 		var newMouse = getMousePosition();
-		stage.activeLevel.manipulators.forEach((prism)=> {
+		stage.activeLevel.objects.forEach((prism)=> {
 			if (SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
 				dragging = prism;
@@ -186,7 +187,7 @@ function animate() {
 		oldMouse.y = newMouse.y;
 		keypressed = false;
 	}
-	
+
 	var done = true;
 	stage.activeLevel.enemies.forEach((enemy)=> {
 		var enemyHit = false;
@@ -200,14 +201,14 @@ function animate() {
 			enemy.regen();
 			enemy.init();//update
 		}
-		if(enemy.currentColour != 0x000000) {
+		if (enemy.currentColour != 0x000000) {
 			done = false;
 		}
 	});
 
 	if (dragging == null) { //only check for hover updates when not dragging
 		var nowHovering = false;
-		stage.activeLevel.manipulators.forEach((prism)=> {
+		stage.activeLevel.objects.forEach((prism)=> {
 			if (SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
 				nowHovering = true;
@@ -218,17 +219,17 @@ function animate() {
 			hovering = null;
 		}
 	}
-		
-	renderer.render(stage);	
-	
-	if(done) {
-		if(levels[levelNumber+1]) {
-			window.location.hash = "#" + (levelNumber+1);
+
+	renderer.render(stage);
+
+	if (done) {
+		if (levels[levelNumber + 1]) {
+			window.location.hash = "#" + (levelNumber + 1);
 		} else {
 			alert("congratulations");
 		}
 	}
-	
+
 	requestAnimationFrame(animate);
 }
 
@@ -241,7 +242,7 @@ function hasCollisions(prism, newx, newy, newrot) {
 	prism.rotation = newrot;
 	var prismpoly = prismToPolygon(prism);
 	var collision = false;
-	stage.activeLevel.manipulators.forEach((otherprism)=> {
+	stage.activeLevel.objects.forEach((otherprism)=> {
 		if (otherprism != prism) {
 			if (SAT.testPolygonPolygon(prismpoly, prismToPolygon(otherprism))) {
 				prism.position.x = oldx;
