@@ -66,30 +66,38 @@ requestAnimationFrame(animate);
 var keypressed = false;
 
 kd.Q.down(() => {
-	dragging.rotation -= 0.01;
-	keypressed = true;
+	if(dragging != null) {
+		dragging.rotation -= 0.01;
+		keypressed = true;
+	}
 });
 
 kd.E.down(() => {
-	dragging.rotation += 0.01;
-	keypressed = true;
+	if(dragging != null) {
+		dragging.rotation += 0.01;
+		keypressed = true;
+	}
 });
 
 kd.R.down(() => {
-	dragging.refractionIndex += 0.01;
-	if (dragging.refractionIndex > 2.5) {
-		dragging.refractionIndex = 2.5;
+	if(dragging != null) {
+		dragging.refractionIndex += 0.01;
+		if (dragging.refractionIndex > 2.5) {
+			dragging.refractionIndex = 2.5;
+		}
+		keypressed = true;
 	}
-	keypressed = true;
 });
 
 
 kd.T.down(() => {
-	dragging.refractionIndex -= 0.01;
-	if (dragging.refractionIndex < 1) {
-		dragging.refractionIndex = 1;
+	if(dragging != null) {
+		dragging.refractionIndex -= 0.01;
+		if (dragging.refractionIndex < 1) {
+			dragging.refractionIndex = 1;
+		}
+		keypressed = true;
 	}
-	keypressed = true;
 });
 
 var dragging = null;
@@ -98,12 +106,8 @@ var offset = [0,0];
 stage.mousedown = function () {
 	if (dragging == null) {
 		prisms.forEach((prism)=> {
-			var points = prism.getPoints();
 			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
-					new SAT.Polygon(new SAT.Vector(),
-						points.map((point)=> {
-							return new SAT.Vector(point[0], point[1]);
-						})))) {
+					prismToPolygon(prism))) {
 				dragging = prism;
 				offset = [stage.getMousePosition().x - prism.position.x, stage.getMousePosition().y - prism.position.y];
 			}
@@ -126,9 +130,15 @@ function animate() {
 		/*rays.forEach((ray)=> {
 		 ray.destination = [newMouse.x, newMouse.y];
 		 });*/
-		if (dragging != null) {
-			dragging.position.x = newMouse.x - offset[0];
-			dragging.position.y = newMouse.y - offset[1];
+		if (dragging != null){
+			var dragx = newMouse.x - offset[0];
+			var dragy = newMouse.y - offset[1];
+			if(hasCollisions(dragging, dragx, dragy)) {
+				//TODO offset
+			} else {
+				dragging.position.x = dragx;
+				dragging.position.y = dragy;
+			}
 		}
 		rays.forEach((ray)=> {
 			ray.update();
@@ -155,6 +165,25 @@ function animate() {
 	requestAnimationFrame(animate);
 }
 
+function hasCollisions(prism, newx, newy) {
+	var oldx = prism.position.x;
+	var oldy = prism.position.y;	
+	prism.position.x = newx;
+	prism.position.y = newy;
+	var prismpoly = prismToPolygon(prism);
+	var collision = false;
+	prisms.forEach((otherprism)=> {
+		if(otherprism != prism) {
+			if(SAT.testPolygonPolygon(prismpoly, prismToPolygon(otherprism))) {
+				prism.position.x = oldx;
+				prism.position.y = oldy;
+				collision = true;
+			}
+		}
+	});
+	return collision;
+}
+
 function intersects(cone, enemyBounds) {
 	var conePol = new SAT.Polygon(new SAT.Vector(), [
 		new SAT.Vector(cone[0], cone[1]),
@@ -170,5 +199,13 @@ function intersects(cone, enemyBounds) {
 	]);
 
 	return SAT.testPolygonPolygon(conePol, boxPol);
+}
+
+function prismToPolygon(prism) {
+	var points = prism.getPoints();
+	return new SAT.Polygon(new SAT.Vector(),
+		points.map((point)=> {
+			return new SAT.Vector(point[0], point[1]);
+		}));
 }
 
