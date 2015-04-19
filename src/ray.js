@@ -42,8 +42,6 @@ class Ray extends PIXI.Graphics {
 		var h = rgbToH(this.color);
 
 		this.colorRefractionScale = 1 - ((1 - h) / 10);
-		this.colorRefractionScale = 1 - ((1 - h) / 10);
-		console.log(this.colorRefractionScale);
 	}
 
 	init() {
