@@ -115,9 +115,7 @@ function animate() {
 		var enemyhit = false;
 		level.rays.forEach((ray)=> {
 			if (ray.hitPrism) {
-				var cone = ray.currentCone;
-				if (intersects(cone, enemy.bottomright, enemy.topleft)) {
-					enemy.hit(ray.color);
+				if (enemy.collisionCheck(ray)) {
 					enemyhit = true;
 					enemy.init();//update
 				}
@@ -168,23 +166,6 @@ function hasCollisions(prism, newx, newy, newrot) {
 		}
 	});
 	return collision;
-}
-
-function intersects(cone, bottomright, topleft) {
-	var conePol = new SAT.Polygon(new SAT.Vector(), [
-		new SAT.Vector(cone[0], cone[1]),
-		new SAT.Vector(cone[2], cone[3]),
-		new SAT.Vector(cone[2], cone[3])
-	]);
-
-	var boxPol = new SAT.Polygon(new SAT.Vector(), [
-		new SAT.Vector(bottomright[0], bottomright[1]),
-		new SAT.Vector(bottomright[0], topleft[1]),
-		new SAT.Vector(topleft[0], topleft[1]),
-		new SAT.Vector(topleft[0], bottomright[1])
-	]);
-
-	return SAT.testPolygonPolygon(conePol, boxPol);
 }
 
 function prismToPolygon(prism) {

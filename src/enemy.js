@@ -1,5 +1,5 @@
 var PIXI = require('pixi.js');
-var segseg = require('segseg');
+var SAT = require('sat');
 
 class Enemy extends PIXI.Graphics {
 	constructor(bottomright, topleft, colour) {
@@ -25,6 +25,34 @@ class Enemy extends PIXI.Graphics {
 		this.endFill();
 	}
 
+	collisionCheck(bendRay) {
+		var boxPol = new SAT.Polygon(new SAT.Vector(), [
+			new SAT.Vector(this.bottomright[0], this.bottomright[1]),
+			new SAT.Vector(this.bottomright[0], this.topleft[1]),
+			new SAT.Vector(this.topleft[0], this.topleft[1]),
+			new SAT.Vector(this.topleft[0], this.bottomright[1])
+		]);
+		var collisions = bendRay.pieces.map((piece) => {
+			var conePol = new SAT.Polygon(new SAT.Vector(), [
+				new SAT.Vector(piece.origin[0], piece.origin[1]),
+				new SAT.Vector(piece.destination[0], piece.destination[1]),
+				new SAT.Vector(piece.destination[0], piece.destination[1])
+			]);
+
+			if (SAT.testPolygonPolygon(conePol, boxPol)) {
+				return piece;
+			}
+		}).filter((piece) => {
+			return piece;
+		});
+		collisions.forEach((piece) => {
+			console.log(piece.color);
+			this.hit(piece.color);
+		});
+		return collisions.length > 0;
+
+	}
+
 	hit(colour) {
 		var red = this.currentColour & 0xFF0000;
 		var green = this.currentColour & 0x00FF00;
@@ -43,7 +71,7 @@ class Enemy extends PIXI.Graphics {
 			this.currentColour = 0;
 		}
 	}
-	
+
 	regen() {
 		var red = this.currentColour & 0xFF0000;
 		var green = this.currentColour & 0x00FF00;

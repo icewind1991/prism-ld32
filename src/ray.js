@@ -61,6 +61,10 @@ class Ray extends PIXI.Graphics {
 		return materialIndex * this.colorRefractionScale;
 	}
 
+	get destination() {
+		return [this.origin[0] + this.direction[0] * 1000, this.origin[1] + this.direction[1] * 1000];
+	}
+
 	set destination(newDestination) {
 		this.direction[0] = newDestination[0] - this.origin[0];
 		this.direction[1] = newDestination[1] - this.origin[1];

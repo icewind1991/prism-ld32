@@ -33,6 +33,10 @@ class Line extends PIXI.Graphics {
 	get direction() {
 		return [this.end[0] - this.origin[0], this.end[1] - this.origin[1]];
 	}
+
+	get destination() {
+		return this.end;
+	}
 }
 
 module.exports = Line;

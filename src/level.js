@@ -42,7 +42,6 @@ class Level {
 		});
 
 		this.enemies.forEach((enemy)=> {
-			console.log(enemy);
 			stage.addChild(enemy);
 		});
 
