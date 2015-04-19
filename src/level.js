@@ -21,7 +21,7 @@ class Level {
 			filter.rotation = def.rotation;
 			return filter;
 		});
-		this.mirrors = this.json.filters.map((def) => {
+		this.mirrors = this.json.mirrors.map((def) => {
 			var mirror = new Mirror(def.width, def.height);
 			mirror.position.x = def.x;
 			mirror.position.y = def.y;
