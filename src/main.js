@@ -34,7 +34,6 @@ prism4.position.x = 550;
 prism4.position.y = 100;
 
 var barier = new Barier(20, 200, 0xFF88FF);
-
 barier.position.x = 250;
 barier.position.y = 200;
 
@@ -71,24 +70,6 @@ requestAnimationFrame(animate);
 
 var keypressed = false;
 
-kd.Q.down(() => {
-	if(dragging != null) {
-		if(!hasCollisions(dragging, dragging.position.x, dragging.position.y, dragging.rotation - 0.01)) {
-			dragging.rotation -= 0.01;
-			keypressed = true;
-		}
-	}
-});
-
-kd.E.down(() => {
-	if(dragging != null) {
-		if(!hasCollisions(dragging, dragging.position.x, dragging.position.y, dragging.rotation + 0.01)) {
-			dragging.rotation += 0.01;
-			keypressed = true;
-		}
-	}
-});
-
 kd.R.down(() => {
 	if(dragging != null) {
 		dragging.refractionIndex += 0.01;
@@ -110,6 +91,7 @@ kd.T.down(() => {
 	}
 });
 
+var hovering = null;
 var dragging = null;
 var offset = [0, 0];
 
@@ -128,6 +110,24 @@ stage.mousedown = function () {
 stage.mouseup = function () {
 	dragging = null;
 	offset = [0, 0];
+}
+
+document.addEventListener("mousewheel", mouseWheelHandler, false);
+
+function mouseWheelHandler(e) {
+	if(hovering != null) {
+		if(e.wheelDelta < 0) {
+			if(!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation - 0.01)) {
+				hovering.rotation -= 0.01;
+				keypressed = true;
+			}
+		} else {
+			if(!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation + 0.01)) {
+				hovering.rotation += 0.01;
+				keypressed = true;
+			}
+		}
+	}
 }
 
 var oldMouse = [];
@@ -175,6 +175,20 @@ function animate() {
 			enemy.init();//update
 		}
 	});
+	
+	if(dragging == null) { //only check for hover updates when not dragging
+		var nowhovering = false;
+		prisms.forEach((prism)=> {
+			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
+					prismToPolygon(prism))) {
+				nowhovering = true;
+				hovering = prism;
+			}
+		});		
+		if(!nowhovering) {
+			hovering = null;
+		}
+	}
 
 	renderer.render(stage);
 
