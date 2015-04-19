@@ -22,31 +22,35 @@ var stage = new PIXI.Stage;
 
 var levels = {	
 	0: require('../levels/level.json'),
-	1: require('../levels/level0.json'),
-	2: require('../levels/level1.json'),
-	3: require('../levels/level2.json'),
-	4: require('../levels/level3.json'),	
+	1: require('../levels/tutorials/drag.json'),
+	2: require('../levels/tutorials/mirrors.json'),
+	3: require('../levels/tutorials/filters.json'),	
+	4: require('../levels/tutorials/rotation.json'),
 };
 
 stage.activeLevel = null;
+var levelNumber = 0;
 function loadLevel(number) {
 	if (stage.activeLevel) {
 		stage.removeChild(stage.activeLevel.scene);
 	}
-	var level = new Level(levels[number]);
-	stage.activeLevel = level;
-	level.scene.scale = {x: scale, y: scale};
-	stage.addChild(level.scene);
+	if(levels[number]) {
+		var level = new Level(levels[number]);
+		stage.activeLevel = level;
+		level.scene.scale = {x: scale, y: scale};
+		stage.addChild(level.scene);
+	} 
 }
 
 function hashChange() {
 	var hash = window.location.hash.substr(1);
 	console.log(hash);
 	if (hash) {
-		loadLevel(hash);
+		levelNumber = parseInt(hash, 10);
 	} else {
-		loadLevel(0);
+		levelNumber = 0;		
 	}
+	loadLevel(levelNumber);
 }
 window.onhashchange = hashChange;
 hashChange();
@@ -117,8 +121,6 @@ function mouseWheelHandler(e) {
 				keypressed = true;
 			}
 		}
-		console.log(hovering.rotation);
-		console.log(hovering.position.x+ ", " + hovering.position.y);
 	}
 }
 
@@ -150,7 +152,8 @@ function animate() {
 		oldMouse.y = newMouse.y;
 		keypressed = false;
 	}
-
+	
+	var done = true;
 	stage.activeLevel.enemies.forEach((enemy)=> {
 		var enemyHit = false;
 		stage.activeLevel.rays.forEach((ray)=> {
@@ -162,6 +165,9 @@ function animate() {
 		if (!enemyHit) {
 			enemy.regen();
 			enemy.init();//update
+		}
+		if(enemy.currentColour != 0x000000) {
+			done = false;
 		}
 	});
 
@@ -178,9 +184,17 @@ function animate() {
 			hovering = null;
 		}
 	}
-
-	renderer.render(stage);
-
+		
+	renderer.render(stage);	
+	
+	if(done) {
+		if(levels[levelNumber+1]) {
+			window.location.hash = "#" + (levelNumber+1);
+		} else {
+			alert("congratulations");
+		}
+	}
+	
 	requestAnimationFrame(animate);
 }
 
