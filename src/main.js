@@ -30,6 +30,7 @@ var levels = {
 
 stage.activeLevel = null;
 var levelNumber = 0;
+var nextLevel = null;
 function loadLevel(number) {
 	if (stage.activeLevel) {
 		stage.removeChild(stage.activeLevel.scene);
@@ -97,6 +98,11 @@ function getMousePosition() {
 }
 
 stage.mousedown = function () {
+	if(nextLevel != null) {	
+		nextLevel = null;
+		stage.removeChild(wintext);	
+		window.location.hash = "#" + nextLevel;		
+	}
 	if (dragging == null) {
 		var newMouse = getMousePosition();
 		stage.activeLevel.manipulators.forEach((prism)=> {
@@ -163,6 +169,7 @@ function onTouchEnd(event) {
 }
 
 var oldMouse = [];
+var wintext = "";
 
 function animate() {
 	kd.tick();
@@ -219,15 +226,28 @@ function animate() {
 		}
 	}
 		
-	renderer.render(stage);	
-	
 	if(done) {
-		if(levels[levelNumber+1]) {
-			window.location.hash = "#" + (levelNumber+1);
-		} else {
-			alert("congratulations");
+		if(nextLevel == null) {
+			if(levels[levelNumber+1]) {				
+				wintext = new PIXI.Text("Click for next level", {
+					font: "100px Arial",
+					fill: 'white',
+				});
+				nextLevel = (levelNumber + 1);
+			} else {
+				wintext = new PIXI.Text("Congratulations", {
+					font: "100px Arial",
+					fill: 'white',
+				});	
+				nextLevel = 1;
+			}
+			wintext.position.x = 50;
+			wintext.position.y = 50;
+			stage.addChild(wintext);
 		}
 	}
+	
+	renderer.render(stage);	
 	
 	requestAnimationFrame(animate);
 }
