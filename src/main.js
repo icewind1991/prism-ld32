@@ -9,8 +9,9 @@ var BendRay = require('./bendray');
 var kd = require('keydrown');
 var SAT = require('sat');
 var wheel = require('wheel');
-
+var Level = require('./level');
 var renderer = new PIXI.CanvasRenderer(800, 600);
+
 
 //var renderer = new PIXI.autoDetectRenderer(800, 600);
 
@@ -18,48 +19,8 @@ document.body.appendChild(renderer.view);
 
 var stage = new PIXI.Stage;
 
-var prism1 = new Prism();
-prism1.position.x = 150;
-prism1.position.y = 200;
-
-var prism2 = new Prism();
-prism2.position.x = 550;
-prism2.position.y = 500;
-
-var prism3 = new Prism();
-prism3.position.x = 550;
-prism3.position.y = 200;
-
-var prism4 = new Prism();
-prism4.position.x = 550;
-prism4.position.y = 100;
-
-var barier = new Barier(20, 200, 0xFF88FF);
-barier.position.x = 250;
-barier.position.y = 200;
-
-var mirror = new Mirror(20, 200, 0xFFFFFF);
-mirror.position.x = 100;
-mirror.position.y = 300;
-
-stage.addChild(prism1);
-stage.addChild(prism2);
-stage.addChild(prism3);
-stage.addChild(prism4);
-stage.addChild(barier);
-stage.addChild(mirror);
-var prisms = [prism1, prism2, barier, prism3, prism4, mirror];
-var rays = [];
-var origin = [0, 0];
-var dir = [1, 1];
-rays.push(new BendRay(origin, dir, prisms, 0xFF0000));//720nm
-rays.push(new BendRay(origin, dir, prisms, 0x00FFFF));//610nm
-rays.push(new BendRay(origin, dir, prisms, 0xFFFF00));//580nm
-rays.push(new BendRay(origin, dir, prisms, 0x00FF00));//510nm
-rays.push(new BendRay(origin, dir, prisms, 0x0000FF));//440nm
-rays.forEach((ray)=> {
-	stage.addChild(ray);
-});
+var level = new Level(require('../level.json'));
+level.applyToStage(stage);
 
 var enemies = [];
 enemies.push(new Enemy(0xFFFF00));
@@ -72,7 +33,7 @@ requestAnimationFrame(animate);
 var keypressed = false;
 
 kd.R.down(() => {
-	if(dragging != null) {
+	if (dragging != null) {
 		dragging.refractionIndex += 0.01;
 		if (dragging.refractionIndex > 2.5) {
 			dragging.refractionIndex = 2.5;
@@ -83,7 +44,7 @@ kd.R.down(() => {
 
 
 kd.T.down(() => {
-	if(dragging != null) {
+	if (dragging != null) {
 		dragging.refractionIndex -= 0.01;
 		if (dragging.refractionIndex < 1) {
 			dragging.refractionIndex = 1;
@@ -98,7 +59,7 @@ var offset = [0, 0];
 
 stage.mousedown = function () {
 	if (dragging == null) {
-		prisms.forEach((prism)=> {
+		level.manipulators.forEach((prism)=> {
 			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
 					prismToPolygon(prism))) {
 				dragging = prism;
@@ -116,15 +77,14 @@ stage.mouseup = function () {
 wheel(document, mouseWheelHandler);
 
 function mouseWheelHandler(e) {
-	console.log(hovering);
-	if(hovering != null) {
-		if(e.wheelDelta < 0) {
-			if(!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation - 0.01)) {
+	if (hovering != null) {
+		if (e.wheelDelta < 0) {
+			if (!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation - 0.01)) {
 				hovering.rotation -= 0.01;
 				keypressed = true;
 			}
 		} else {
-			if(!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation + 0.01)) {
+			if (!hasCollisions(hovering, hovering.position.x, hovering.position.y, hovering.rotation + 0.01)) {
 				hovering.rotation += 0.01;
 				keypressed = true;
 			}
@@ -142,17 +102,17 @@ function animate() {
 		/*rays.forEach((ray)=> {
 		 ray.destination = [newMouse.x, newMouse.y];
 		 });*/
-		if (dragging != null){
+		if (dragging != null) {
 			var dragx = newMouse.x - offset[0];
 			var dragy = newMouse.y - offset[1];
-			if(hasCollisions(dragging, dragx, dragy, dragging.rotation)) {
+			if (hasCollisions(dragging, dragx, dragy, dragging.rotation)) {
 				//TODO offset
 			} else {
 				dragging.position.x = dragx;
 				dragging.position.y = dragy;
 			}
 		}
-		rays.forEach((ray)=> {
+		level.rays.forEach((ray)=> {
 			ray.update();
 		});
 		oldMouse.x = newMouse.x;
@@ -162,7 +122,7 @@ function animate() {
 
 	enemies.forEach((enemy)=> {
 		var enemyhit = false;
-		rays.forEach((ray)=> {
+		level.rays.forEach((ray)=> {
 			if (ray.hitPrism) {
 				var cone = ray.currentCone;
 				if (intersects(cone, enemy.bounds)) {
@@ -172,22 +132,22 @@ function animate() {
 				}
 			}
 		});
-		if(!enemyhit) {
+		if (!enemyhit) {
 			enemy.regen();
 			enemy.init();//update
 		}
 	});
 
-	if(dragging == null) { //only check for hover updates when not dragging
+	if (dragging == null) { //only check for hover updates when not dragging
 		var nowhovering = false;
-		prisms.forEach((prism)=> {
+		level.manipulators.forEach((prism)=> {
 			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
 					prismToPolygon(prism))) {
 				nowhovering = true;
 				hovering = prism;
 			}
 		});
-		if(!nowhovering) {
+		if (!nowhovering) {
 			hovering = null;
 		}
 	}
@@ -206,9 +166,9 @@ function hasCollisions(prism, newx, newy, newrot) {
 	prism.rotation = newrot;
 	var prismpoly = prismToPolygon(prism);
 	var collision = false;
-	prisms.forEach((otherprism)=> {
-		if(otherprism != prism) {
-			if(SAT.testPolygonPolygon(prismpoly, prismToPolygon(otherprism))) {
+	level.manipulators.forEach((otherprism)=> {
+		if (otherprism != prism) {
+			if (SAT.testPolygonPolygon(prismpoly, prismToPolygon(otherprism))) {
 				prism.position.x = oldx;
 				prism.position.y = oldy;
 				prism.rotation = oldrot;

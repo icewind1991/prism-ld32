@@ -1,0 +1,38 @@
+{
+	"prisms": [
+		{
+			"x": 100,
+			"y": 100,
+			"rotation": 1
+		}
+	],
+	"filters": [
+		{
+			"x": 500,
+			"y": 100,
+			"width": 20,
+			"height": 100,
+			"rotation": 1,
+			"color": "FFFF00"
+		}
+	],
+	"mirrors": [
+		{
+			"x": 100,
+			"y": 300,
+			"width": 20,
+			"height": 100,
+			"rotation": 1
+		}
+	],
+	"light": {
+		"origin": [
+			0,
+			100
+		],
+		"direction": [
+			1,
+			0.8
+		]
+	}
+}

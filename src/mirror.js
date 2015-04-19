@@ -3,11 +3,11 @@ var Manipulator = require('./manipulator');
 var Ray = require('./ray');
 
 class Mirror extends Manipulator {
-	constructor(width, height, color) {
+	constructor(width, height) {
 		super();
 		this.mirrorWidth = width;
 		this.mirrorHeight = height;
-		this.color = color;
+		this.color = 0xFFFFFF;
 		this.init();
 	}
 
