@@ -1,0 +1,64 @@
+{
+	"prisms": [
+		{
+			"x": 354,
+			"y": 154,
+			"rotation": 0
+		}
+	],
+	"filters": [	
+		{
+			"x": 454,
+			"y": 282,
+			"width": 20,
+			"height": 100,
+			"rotation": 0.5,
+			"color": "00FF00"
+		}
+	],
+	"mirrors": [		
+	],
+	"enemies": [
+		{
+			"x": 755,
+			"y": 455,
+			"width": 20,
+			"height": 20,
+			"rotation": 1,
+			"color": "00FF00"
+		}, 
+		{
+			"x": 755,
+			"y": 430,
+			"width": 20,
+			"height": 20,
+			"rotation": 1,
+			"color": "00FF00"
+		},
+		{
+			"x": 755,
+			"y": 405,
+			"width": 20,
+			"height": 20,
+			"rotation": 1,
+			"color": "00FF00"
+		}
+	],
+	"message": {
+		"text": "This is a filter",
+		"font": "50px Arial", 
+		"fill": "red",
+		"x": 200,
+		"y": 50
+	},
+	"light": {
+		"origin": [
+			0,
+			300
+		],
+		"direction": [
+			1,
+			-0.5
+		]
+	}
+}
