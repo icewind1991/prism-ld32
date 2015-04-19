@@ -8,6 +8,7 @@ var SAT = require('sat');
 var wheel = require('wheel');
 var Level = require('./level');
 
+var editMode = false;
 var height = document.body.clientHeight;
 var width = document.body.clientWidth;
 var renderer = new PIXI.CanvasRenderer(width, height);
@@ -91,17 +92,26 @@ kd.T.down(() => {
 });
 
 kd.SPACE.press(() => {
-	if(hovering != null && hovering.isDragable) {
-		console.log("clearing: " + hovering);
-		var index = stage.activeLevel.objects.indexOf(hovering);		
-		hovering.clear();
-		stage.activeLevel.objects.splice(index, 1);
+	if(hovering != null && editMode) {
+		var index = stage.activeLevel.manipulators.indexOf(hovering);
+		if(index >= 0) {
+			stage.activeLevel.manipulators.splice(index, 1);
+			stage.activeLevel.rays.forEach((ray)=> {
+				ray.updatePrisms(stage.activeLevel.manipulators);
+			});
+		}
+		var enemyIndex = stage.activeLevel.enemies.indexOf(hovering);
+		if(enemyIndex >= 0) {
+			stage.activeLevel.enemies.splice(enemyIndex, 1);
+		}
+		hovering.clear();		
 		stage.removeChild(hovering);
 		if(dragging != null) {
 			dragging = null;
 		}	
 		hovering = null;
 	}
+	keypressed = true;
 });
 
 var hovering = null;
@@ -129,7 +139,7 @@ stage.mousedown = function () {
 	if (dragging == null) {
 		var newMouse = getMousePosition();
 		stage.activeLevel.objects.forEach((prism)=> {
-			if (prism.isDragable && SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
+			if ((editMode || prism.isDragable) && SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
 				dragging = prism;
 				offset = [newMouse.x - prism.position.x, newMouse.y - prism.position.y];
@@ -207,7 +217,7 @@ function animate() {
 				dragging.position.y = dragY;
 			}
 		}
-		stage.activeLevel.rays.forEach((ray)=> {
+		stage.activeLevel.rays.forEach((ray)=> {			
 			ray.update();
 		});
 		oldMouse.x = newMouse.x;
@@ -236,7 +246,7 @@ function animate() {
 	if (dragging == null) { //only check for hover updates when not dragging
 		var nowHovering = false;
 		stage.activeLevel.objects.forEach((prism)=> {
-			if (prism.isDragable && SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
+			if ((editMode || prism.isDragable) && SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
 				nowHovering = true;
 				hovering = prism;
@@ -320,7 +330,8 @@ window.save = function () {
 }
 
 window.edit = function() {
-	stage.activeLevel.objects.forEach((object)=> {
+	/*stage.activeLevel.objects.forEach((object)=> {
 		object.toggleCheat();
-	});
+	});*/
+	editMode = !editMode;
 }

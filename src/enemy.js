@@ -14,7 +14,7 @@ class Enemy extends GameObject {
 	}
 
 	init() {
-		this.clear();
+		this.clear();		
 		this.lineStyle(2, 0xFFFFFF, 1);
 
 		this.beginFill(this.currentColour);
@@ -26,7 +26,7 @@ class Enemy extends GameObject {
 		// end the fill
 		this.endFill();
 	}
-
+			
 	collisionCheck(bendRay) {
 		var boxPol = new SAT.Polygon(new SAT.Vector(), [
 			new SAT.Vector(this.bottomright[0] + this.position.x, this.bottomright[1] + this.position.y),
@@ -99,11 +99,7 @@ class Enemy extends GameObject {
 			this.getRotatedPoint([this.topleft[0], this.topleft[1]]),
 			this.getRotatedPoint([this.topleft[0], this.bottomright[1]])
 		];
-	}
-	
-	toggleCheat() {
-		this.isDragable = !this.isDragable;
-	}
+	}	
 }
 
 module.exports = Enemy;

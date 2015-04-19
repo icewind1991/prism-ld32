@@ -10,7 +10,11 @@ class BendRay extends Ray {
 		this.pieces = [];
 	}
 
-	update() {
+	updatePrisms(prisms) {
+		this.prisms = prisms;
+	}
+	
+	update() {		
 		var pieces = [this];
 		var prisms = this.prisms.slice(0); //clone
 		var piece = pieces[pieces.length - 1];

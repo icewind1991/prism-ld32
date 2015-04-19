@@ -55,10 +55,6 @@ class Mirror extends Manipulator {
 		var inAngle = (angle1 - angle2) % (2 * Math.PI);
 		return angle2 - inAngle;
 	}
-	
-	toggleCheat() {
-		this.isDragable = !this.isDragable;
-	}
 }
 
 module.exports = Mirror;

@@ -48,10 +48,6 @@ class Barier extends Manipulator {
 			}
 		}
 	}
-	
-	toggleCheat() {
-		this.isDragable = !this.isDragable;
-	}
 }
 
 module.exports = Barier;
