@@ -54,6 +54,11 @@ function hashChange() {
 	} else {
 		levelNumber = 0;
 	}
+	if(wintext) {
+		nextLevel = null;
+		stage.removeChild(wintext);
+		wintext = null;
+	}
 	loadLevel(levelNumber);
 }
 window.onhashchange = hashChange;
@@ -173,7 +178,7 @@ function onTouchEnd(event) {
 }
 
 var oldMouse = [];
-var wintext = "";
+var wintext = null;
 
 function animate() {
 	kd.tick();
