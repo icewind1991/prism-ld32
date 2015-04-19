@@ -123,17 +123,18 @@ stage.mouseup = function () {
 	offset = [0, 0];
 };
 
-wheel(document, mouseWheelHandler);
-
-function mouseWheelHandler(e) {
-	if (hovering != null) {
-		if (e.wheelDelta < 0) {
-			tryRotate(hovering, hovering.rotation - 0.01);
-		} else {
-			tryRotate(hovering, hovering.rotation + 0.01);
-		}
+wheel(document, function (e) {
+	var rotateFactor = 0;
+	if(e.deltaY) {//ff
+		rotateFactor = e.deltaY / 3;
 	}
-}
+	if(e.wheelDelta) {//chrome
+		rotateFactor = e.wheelDelta / 120;
+	}
+	if (hovering != null) {
+		tryRotate(hovering, hovering.rotation + (0.01 * rotateFactor));
+	}
+});
 
 function tryRotate(prism, newRotation) {
 	if (!hasCollisions(prism, prism.position.x, prism.position.y, newRotation)) {
@@ -181,9 +182,7 @@ function animate() {
 		if (dragging != null) {
 			var dragX = newMouse.x - offset[0];
 			var dragY = newMouse.y - offset[1];
-			if (hasCollisions(dragging, dragX, dragY, dragging.rotation)) {
-			
-			} else {
+			if (!hasCollisions(dragging, dragX, dragY, dragging.rotation)) {
 				dragging.position.x = dragX;
 				dragging.position.y = dragY;
 			}
