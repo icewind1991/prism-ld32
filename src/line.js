@@ -1,8 +1,9 @@
 var PIXI = require('pixi.js');
 
 class Line extends PIXI.Graphics {
-	constructor(origin, end) {
+	constructor(origin, end, color) {
 		super();
+		this.color = color;
 		this.origin = origin;
 		this.end = end;
 		this.init();

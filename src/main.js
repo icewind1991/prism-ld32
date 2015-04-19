@@ -32,7 +32,7 @@ var prism4 = new Prism();
 prism4.position.x = 550;
 prism4.position.y = 100;
 
-var barier = new Barier(20, 200, 0xFF0000);
+var barier = new Barier(20, 200, 0xFF00FF);
 
 barier.position.x = 250;
 barier.position.y = 200;

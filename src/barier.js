@@ -1,5 +1,6 @@
 var PIXI = require('pixi.js');
 var Manipulator = require('./manipulator');
+var Ray = require('./ray');
 
 class Barier extends Manipulator {
 	constructor(width, height, color) {
@@ -30,16 +31,20 @@ class Barier extends Manipulator {
 	}
 
 	inputRay(ray) {
-		//console.log(ray);
-		//console.log(this.color);
-		if (ray.rayColor != this.color) {
-			return [ray];
-		}
+
 		var [line, segment] = this.intersectWithSegments(ray);
 		if (!line || !segment) {
 			return [ray];
 		} else {
-			return [line];
+			var parts = [line];
+			var newColor = ray.rayColor & this.color;
+			if (newColor === 0x000000) {
+				return parts;
+			} else {
+				var newRay = new Ray(line.end, ray.direction, newColor, ray.refractionScale);
+				parts.push(newRay);
+				return parts;
+			}
 		}
 	}
 }

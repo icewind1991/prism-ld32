@@ -41,7 +41,7 @@ class Manipulator extends PIXI.Graphics {
 			return [null, null];
 		}
 		var inputLines = intersections.map((intersection) => {
-			var line = new Line(ray.origin, intersection.point);
+			var line = new Line(ray.origin, intersection.point, ray.color);
 			line.segment = intersection.segment;
 			return line;
 		}).filter((line) => {

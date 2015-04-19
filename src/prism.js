@@ -92,7 +92,7 @@ class Prism extends Manipulator {
 			outAngle = this.getOutAngle(internalLine, [segment[1], segment[0]], 1 / ray.getRefractionIndex(this.refractionIndex));
 
 			direction = [Math.cos(outAngle), Math.sin(outAngle)];
-			internalRay = new Ray(internalLine.end, direction);
+			internalRay = new Ray(internalLine.end, direction, ray.color, ray.refractionScale);
 			if (i < 100) {
 				[newInternalLine, segment2] = this.intersectWithSegments(internalRay);
 			} else {

@@ -35,16 +35,6 @@ class BendRay extends Ray {
 			}
 			pieces = pieces.concat(newPieces);
 		}
-		//var newPieces = prism.inputRay(output);
-		//if (newPieces.length > 0) {
-		//
-		//}
-		//var pieces = this.prisms.reduce((pieces, prism, i) => {
-		//	var output = pieces.pop();
-		//	var newPieces = prism.inputRay(output);
-		//
-		//	return pieces.concat(newPieces);
-		//}, [this]);
 
 
 		this.hitPrism = (pieces.length > 1);
@@ -54,11 +44,11 @@ class BendRay extends Ray {
 
 		this.moveTo(this.origin[0], this.origin[1]);
 		pieces.forEach((piece) => {
+			this.lineStyle(2, piece.color, 1);
 			if (piece.end) {
 				this.lineTo(piece.end[0], piece.end[1]);
 			} else {
-				this.lineStyle(2, this.color, 1);
-				this.beginFill(this.color);
+				this.beginFill(piece.color);
 				this.lastCone = [piece.origin[0], piece.origin[1],
 					piece.origin[0] + piece.direction[0] * 1000, piece.origin[1] + piece.direction[1] * 1000];
 
