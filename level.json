@@ -25,6 +25,16 @@
 			"rotation": 1
 		}
 	],
+	"enemies": [
+		{
+			"x": 500,
+			"y": 500,
+			"width": 20,
+			"height": 30,
+			"rotation": 1,
+			"color": "FFFF00"
+		}
+	],
 	"light": {
 		"origin": [
 			0,

@@ -2,7 +2,7 @@ var PIXI = require('pixi.js');
 var segseg = require('segseg');
 
 class Enemy extends PIXI.Graphics {
-	constructor(colour, bottomright, topleft) {
+	constructor(bottomright, topleft, colour) {
 		super();
 		this.originalColour = colour;
 		this.currentColour = this.originalColour;

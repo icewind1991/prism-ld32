@@ -1,9 +1,6 @@
 var PIXI = require('pixi.js');
 var Prism = require('./prism');
 var Line = require('./line');
-var Ray = require('./ray');
-var Barier = require('./barier');
-var Mirror = require('./mirror');
 var Enemy = require('./enemy');
 var BendRay = require('./bendray');
 var kd = require('keydrown');
@@ -21,12 +18,6 @@ var stage = new PIXI.Stage;
 
 var level = new Level(require('../level.json'));
 level.applyToStage(stage);
-
-var enemies = [];
-enemies.push(new Enemy(0xFFFF00, [800, 600], [780, 580]));
-enemies.forEach((enemy)=> {
-	stage.addChild(enemy);
-});
 
 requestAnimationFrame(animate);
 
@@ -120,7 +111,7 @@ function animate() {
 		keypressed = false;
 	}
 
-	enemies.forEach((enemy)=> {
+	level.enemies.forEach((enemy)=> {
 		var enemyhit = false;
 		level.rays.forEach((ray)=> {
 			if (ray.hitPrism) {

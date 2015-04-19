@@ -3,6 +3,7 @@ var Line = require('./line');
 var BendRay = require('./bendray');
 var Barier = require('./barier');
 var Mirror = require('./mirror');
+var Enemy = require('./enemy');
 
 class Level {
 	constructor(json) {
@@ -28,6 +29,9 @@ class Level {
 			mirror.rotation = def.rotation;
 			return mirror;
 		});
+		this.enemies = this.json.enemies.map((def) => {
+			return new Enemy([def.x, def.y], [def.x + def.width, def.y + def.height], parseInt(def.color, 16));
+		});
 		this.manipulators = this.prisms.concat(this.filters, this.mirrors);
 		this.rays = [];
 	}
@@ -35,6 +39,11 @@ class Level {
 	applyToStage(stage) {
 		this.manipulators.forEach((manipulator) => {
 			stage.addChild(manipulator);
+		});
+
+		this.enemies.forEach((enemy)=> {
+			console.log(enemy);
+			stage.addChild(enemy);
 		});
 
 		this.rays = [];
