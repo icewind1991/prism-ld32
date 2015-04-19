@@ -7,10 +7,14 @@ var kd = require('keydrown');
 var SAT = require('sat');
 var wheel = require('wheel');
 var Level = require('./level');
-var renderer = new PIXI.CanvasRenderer(800, 600);
 
+var height = document.body.clientHeight;
+var width = document.body.clientWidth;
+var renderer = new PIXI.CanvasRenderer(width, height);
 
 //var renderer = new PIXI.autoDetectRenderer(800, 600);
+var scale = Math.min(width / 800, height / 600);
+//scale = 1;
 
 document.body.appendChild(renderer.view);
 
@@ -28,6 +32,7 @@ function loadLevel(number) {
 	}
 	var level = new Level(levels[number]);
 	stage.activeLevel = level;
+	level.scene.scale = {x: scale, y: scale};
 	stage.addChild(level.scene);
 }
 
@@ -74,11 +79,16 @@ var offset = [0, 0];
 
 stage.mousedown = function () {
 	if (dragging == null) {
+		var newMouse = stage.getMousePosition();
+		newMouse = {
+			x: newMouse.x /= scale,
+			y: newMouse.y /= scale
+		};
 		stage.activeLevel.manipulators.forEach((prism)=> {
-			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
+			if (SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
 				dragging = prism;
-				offset = [stage.getMousePosition().x - prism.position.x, stage.getMousePosition().y - prism.position.y];
+				offset = [newMouse.x - prism.position.x, newMouse.y - prism.position.y];
 			}
 		});
 	}
@@ -111,20 +121,21 @@ var oldMouse = [];
 
 function animate() {
 	kd.tick();
-	//prism.rotation += 0.01;
 	var newMouse = stage.getMousePosition();
+	newMouse = {
+		x: newMouse.x / scale,
+		y: newMouse.y / scale
+	};
 	if (keypressed || newMouse.x != oldMouse.x || newMouse.y != oldMouse.y) {
-		/*rays.forEach((ray)=> {
-		 ray.destination = [newMouse.x, newMouse.y];
-		 });*/
 		if (dragging != null) {
-			var dragx = newMouse.x - offset[0];
-			var dragy = newMouse.y - offset[1];
-			if (hasCollisions(dragging, dragx, dragy, dragging.rotation)) {
+			var dragX = newMouse.x - offset[0];
+			var dragY = newMouse.y - offset[1];
+			if (hasCollisions(dragging, dragX, dragY, dragging.rotation)) {
+				console.log('collide');
 				//TODO offset
 			} else {
-				dragging.position.x = dragx;
-				dragging.position.y = dragy;
+				dragging.position.x = dragX;
+				dragging.position.y = dragY;
 			}
 		}
 		stage.activeLevel.rays.forEach((ray)=> {
@@ -136,29 +147,29 @@ function animate() {
 	}
 
 	stage.activeLevel.enemies.forEach((enemy)=> {
-		var enemyhit = false;
+		var enemyHit = false;
 		stage.activeLevel.rays.forEach((ray)=> {
 			if (enemy.collisionCheck(ray)) {
-				enemyhit = true;
+				enemyHit = true;
 				enemy.init();//update
 			}
 		});
-		if (!enemyhit) {
+		if (!enemyHit) {
 			enemy.regen();
 			enemy.init();//update
 		}
 	});
 
 	if (dragging == null) { //only check for hover updates when not dragging
-		var nowhovering = false;
+		var nowHovering = false;
 		stage.activeLevel.manipulators.forEach((prism)=> {
-			if (SAT.pointInPolygon(new SAT.Vector(stage.getMousePosition().x, stage.getMousePosition().y),
+			if (SAT.pointInPolygon(new SAT.Vector(newMouse.x, newMouse.y),
 					prismToPolygon(prism))) {
-				nowhovering = true;
+				nowHovering = true;
 				hovering = prism;
 			}
 		});
-		if (!nowhovering) {
+		if (!nowHovering) {
 			hovering = null;
 		}
 	}
