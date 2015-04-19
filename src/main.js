@@ -114,11 +114,9 @@ function animate() {
 	level.enemies.forEach((enemy)=> {
 		var enemyhit = false;
 		level.rays.forEach((ray)=> {
-			if (ray.hitPrism) {
-				if (enemy.collisionCheck(ray)) {
-					enemyhit = true;
-					enemy.init();//update
-				}
+			if (enemy.collisionCheck(ray)) {
+				enemyhit = true;
+				enemy.init();//update
 			}
 		});
 		if (!enemyhit) {
