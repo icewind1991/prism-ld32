@@ -189,6 +189,8 @@ stage.mouseup = function () {
 };
 
 wheel(document, function (e) {
+	e.preventDefault();
+	e.stopPropagation();
 	var rotateFactor = 0;
 	if(e.deltaY) {//ff
 		rotateFactor = e.deltaY / 3;
