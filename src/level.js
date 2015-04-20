@@ -117,6 +117,55 @@ class Level {
 		});
 		return json;
 	}
+	
+	addPrism(prism) {
+		this.prisms.push(prism);
+		this.scene.addChild(prism);
+		this.update();
+	}
+	
+	addMirror(mirror) {
+		this.mirrors.push(mirror);
+		this.scene.addChild(mirror);
+		this.update();
+	}
+	
+	addFilter(filter) {
+		this.filters.push(filter);
+		this.scene.addChild(filter);
+		this.update();
+	}
+	
+	addEnemy(enemy) {
+		this.enemies.push(enemy);
+		this.scene.addChild(enemy);
+		this.update();
+	}
+	
+	remove(object) {
+		this.checkUpdate(this.prisms, object);		
+		this.checkUpdate(this.filters, object);
+		this.checkUpdate(this.mirrors, object);
+		this.checkUpdate(this.enemies, object);		
+		this.scene.removeChild(object);
+		object.clear();
+		this.update();
+	}
+	
+	checkUpdate(haystack, needle) {
+		var index = haystack.indexOf(needle);
+		if(index >= 0) {
+			haystack.splice(index, 1);			
+		}
+	}
+	
+	update() {
+		this.manipulators = this.prisms.concat(this.filters, this.mirrors);
+		this.objects = this.manipulators.concat(this.enemies);
+		this.rays.forEach((ray)=> {
+			ray.updatePrisms(this.manipulators);
+		});
+	}
 }
 
 module.exports = Level;

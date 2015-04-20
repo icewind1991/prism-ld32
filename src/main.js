@@ -1,5 +1,8 @@
 var PIXI = require('pixi.js');
 var Prism = require('./prism');
+var Mirror = require('./mirror');
+var Filter = require('./barier');
+var Enemy = require('./enemy');
 var Line = require('./line');
 var Enemy = require('./enemy');
 var BendRay = require('./bendray');
@@ -70,6 +73,8 @@ hashChange();
 requestAnimationFrame(animate);
 
 var keypressed = false;
+var hovering = null;
+var dragging = null;
 
 kd.R.down(() => {
 	if (dragging != null) {
@@ -92,31 +97,58 @@ kd.T.down(() => {
 	}
 });
 
+//for level editing
 kd.SPACE.press(() => {
 	if(hovering != null && editMode) {
-		var index = stage.activeLevel.manipulators.indexOf(hovering);
-		if(index >= 0) {
-			stage.activeLevel.manipulators.splice(index, 1);
-			stage.activeLevel.rays.forEach((ray)=> {
-				ray.updatePrisms(stage.activeLevel.manipulators);
-			});
-		}
-		var enemyIndex = stage.activeLevel.enemies.indexOf(hovering);
-		if(enemyIndex >= 0) {
-			stage.activeLevel.enemies.splice(enemyIndex, 1);
-		}
-		hovering.clear();		
-		stage.removeChild(hovering);
-		if(dragging != null) {
-			dragging = null;
-		}	
+		stage.activeLevel.remove(hovering);
+		dragging = null;
 		hovering = null;
 	}
 	keypressed = true;
 });
 
-var hovering = null;
-var dragging = null;
+kd.P.press(() => {
+	if(editMode) {
+		var newPrism = new Prism();
+		var mouse = getMousePosition();
+		newPrism.position.x = mouse.x;
+		newPrism.position.y = mouse.y;
+		newPrism.rotation = 0;
+		if(!hasCollisions(newPrism, mouse.x, mouse.y, 0)) {
+			stage.activeLevel.addPrism(newPrism);
+		}
+	}
+	keypressed = true;
+});
+
+kd.M.press(() => {
+	if(editMode) {
+		var newMirror = new Mirror(100,5);
+		var mouse = getMousePosition();
+		newMirror.position.x = mouse.x;
+		newMirror.position.y = mouse.y;
+		newMirror.rotation = 0;
+		if(!hasCollisions(newMirror, mouse.x, mouse.y, 0)) {
+			stage.activeLevel.addMirror(newMirror);
+		}
+	}
+	keypressed = true;
+});
+
+kd.F.press(() => {
+	if(editMode) {
+		var newFilter = new Filter(100,20,0xFF0000);
+		var mouse = getMousePosition();
+		newFilter.position.x = mouse.x;
+		newFilter.position.y = mouse.y;
+		newFilter.rotation = 0;
+		if(!hasCollisions(newFilter, mouse.x, mouse.y, 0)) {
+			stage.activeLevel.addFilter(newFilter);
+		}
+	}
+	keypressed = true;
+});
+
 var offset = [0, 0];
 
 function getMousePosition() {
