@@ -60,7 +60,7 @@ function hashChange() {
 	if (hash) {
 		levelNumber = parseInt(hash, 10);
 	} else {
-		levelNumber = 0;
+		levelNumber = 1;
 	}
 	if(wintext) {
 		nextLevel = null;
