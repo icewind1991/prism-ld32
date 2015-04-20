@@ -1,0 +1,62 @@
+{
+	"light": {
+		"origin": [
+			0,
+			100
+		],
+		"direction": [
+			1,
+			0.8
+		]
+	},
+	"prisms": [
+		{
+			"x": 350,
+			"y": 150,
+			"rotation": 0
+		}
+	],
+	"filters": [],
+	"mirrors": [
+		{
+			"x": 413.89961389961405,
+			"y": 237.45173745173736,
+			"width": 5,
+			"height": 100,
+			"rotation": 0
+		}
+	],
+	"enemies": [
+		{
+			"x": 47,
+			"y": 440,
+			"width": 20,
+			"height": 20,
+			"color": "ff0000",
+			"rotation": 0
+		},
+		{
+			"x": 47,
+			"y": 405,
+			"width": 20,
+			"height": 20,
+			"color": "ff00",
+			"rotation": 0
+		},
+		{
+			"x": 47,
+			"y": 370,
+			"width": 20,
+			"height": 20,
+			"color": "ff",
+			"rotation": 0
+		}
+	],
+	"message": {
+		"text": "Light can pass through a prism multiple times",
+		"font": "50px Arial", 
+		"fill": "red",
+		"x": 50,
+		"y": 50
+	}
+}

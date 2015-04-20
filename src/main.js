@@ -28,13 +28,15 @@ var levels = {
 	0: require('../levels/level.json'),
 	1: require('../levels/tutorials/drag.json'),
 	2: require('../levels/tutorials/mirrors.json'),
-	3: require('../levels/tutorials/filters.json'),
-	4: require('../levels/tutorials/rotation.json'),
-	5: require('../levels/tutorials/combine.json'),
-	6: require('../levels/easy/1.json'),
-	7: require('../levels/easy/2.json'),
-	8: require('../levels/easy/3.json'),
-	9: require('../levels/easy/4.json'),
+	3: require('../levels/tutorials/twopasses.json'),
+	4: require('../levels/tutorials/filters.json'),
+	5: require('../levels/tutorials/rotation.json'),
+	6: require('../levels/tutorials/combine.json'),
+	7: require('../levels/easy/1.json'),
+	8: require('../levels/easy/2.json'),
+	9: require('../levels/easy/3.json'),
+	10: require('../levels/easy/4.json'),
+	
 };
 
 stage.activeLevel = null;
@@ -363,8 +365,5 @@ window.save = function () {
 }
 
 window.edit = function() {
-	/*stage.activeLevel.objects.forEach((object)=> {
-		object.toggleCheat();
-	});*/
 	editMode = !editMode;
 }
